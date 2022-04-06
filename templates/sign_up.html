@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1 style="text-align: center;">Регистрация</h1>
+    {{message}}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+    {% if field.type == "SubmitField" and field != form.csrf_token %}
+    <p style="text-align: center;">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {% elif field != form.csrf_token %}
+    <p style="text-align: center;">
+        {{ field.label }}<br>
+        {{ field(size=80, maxlength=50, type="email") }}<br>
+        {% for error in form.email.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+    </p>
+    {% endif %}
+    {% endfor %}
+</form>
+{% endblock %}
