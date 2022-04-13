@@ -17,8 +17,6 @@ body {
     border-radius: 10px;
 }
 .form form {
-    height: 75%;
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,6 +38,19 @@ body {
 .reg {
     height: 75vh;
     width: 25%;
+}
+.reg form {
+    height: 75%;
+    width: 100%;
+}
+.log {
+    margin: 11% auto;
+    height: 57vh;
+    width: 23%;
+}
+.log form {
+    height: 50%;
+    width: 100%;
 }
 .form form .submit {
     cursor: pointer;
