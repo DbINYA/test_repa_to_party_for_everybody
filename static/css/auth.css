@@ -1,0 +1,70 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    background: #fdfdfd;
+}
+.form {
+    margin: 8% auto;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+.form form {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+.form form input {
+    width: 75%;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    outline: none;
+    padding: 0 10px 0 10px;
+    font-size: 1em;
+}
+.form .header_form {
+    font-size: 1.2em;
+}
+/* Регистрация */
+.reg {
+    height: 75vh;
+    width: 25%;
+}
+.form form .submit {
+    cursor: pointer;
+    transition: .4s;
+    color: rgb(254, 214, 188);
+    background: none;
+    border: 1px solid rgb(254, 214, 188);
+}
+.form form .submit:hover {
+    transition: .4s;
+    color: white;
+    background: rgb(254, 214, 188);
+    box-shadow: 0 0 0 5px rgba(254, 214, 188, 0.6), 0 0 0 10px rgba(254, 214, 188, 0.3);
+}
+.form .after_form {
+    font-size: .9em;
+    color: #575757;
+}
+.form .after_form a {
+    padding-left: 2px;
+    cursor: pointer;
+    transition: .4s;
+    color: rgb(254, 214, 188);
+}
+.form .after_form a:hover {
+    transition: .4s;
+    border-bottom: 1px solid rgb(254, 214, 188);
+}
