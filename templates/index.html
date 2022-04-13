@@ -1,32 +1,28 @@
 {% extends 'base.html' %}
 
 
-{% block sidebar %}
-<div class="col-md-3">
-	<div class="list-group">
-		{% for item_category in ['first', 'second', 'third'] %}
-		<a class="list-group-item list-group-item-action">{{ item_category }}</a>
-		{% endfor %}
-	</div>
-</div>
-{% endblock %}
-
 {% block content %}
-<div class="col-md-9">
+{% if current_user.is_authenticated %}
+<div class="col-md-12">
 	{% for item in topics %}
 	<div class="card mb-3">
 		<div class="card-header">
-			<a>Problem</a>
-		</div>
+			{% if item.user_id %}
+			Вопрос от <a href="{{ url_for('profil', username=user[item.user_id][-1]) }}">{{ ' '.join(user[item.user_id][:-1]) }}</a>
+			{% else %}
+			Вопрос от неизвестного
+			{% endif %}
+        </div>
 		<div class="card-body">
 			<h5 class="card-title">{{ item.header }}</h5>
-			<p class="card-text">{{ item.content }}</p>
-			<a href="#" class="btn btn-primary">Read more</a>
+			<p class="col-8 text-truncate">{{ item.content }}</p>
+			<a href="{{ url_for('sometopic', id_topic=item.id, name_topic=item.header) }}" class="btn btn-primary">Read more</a>
 		</div>
 		<div class="card-fotter text-muted" style="margin-left: 15px;">
-			{{item.created_at}}
+			{{item.created_at.strftime('%d.%m.%Y %H:%M:%S')}}
 		</div>
 	</div>
 	{% endfor %}
 </div>
+{% endif %}
 {% endblock %}
