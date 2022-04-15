@@ -32,12 +32,18 @@
 .topic .topic_info_text .topic_header {
   font-weight: bold;
   font-size: 1.3em;
+  transition: .2s;
+  color: black;
+}
+.topic .topic_info_text .topic_header:hover {
+  cursor: pointer;
+  transition: .2s;
+  color: gray;
 }
 .topic .topic_info_text .topic_text {
   height: 30%;
   font-size: 18px;
 }
-
 
 .topic .topic_info_user {
   width: 22%;
