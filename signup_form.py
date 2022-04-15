@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, TextAreaField, SubmitField, EmailField
+from wtforms import PasswordField, StringField, SubmitField, EmailField
 from wtforms.validators import DataRequired
 
 
@@ -10,5 +10,4 @@ class RegisterForm(FlaskForm):
     name = StringField('Имя', validators=[DataRequired()])
     surname = StringField('Фамилия', validators=[DataRequired()])
     pat = StringField("Отчество")
-    about = TextAreaField("О себе")
     submit = SubmitField('Зарегистрироваться')

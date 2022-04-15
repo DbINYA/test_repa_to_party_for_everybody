@@ -44,7 +44,6 @@ def reqister():
             surname=form.surname.data,
             patronymic=form.pat.data,
             email=form.email.data,
-            about=form.about.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -91,10 +90,6 @@ def addquestion():
     return render_template('question.html', title='Мой вопрос', form=form)
 
 
-        
-    return render_template('question.html', title='Мой вопрос', form=form)
-
-
 @app.route('/')
 def home():
     db_sess = db_session.create_session()
@@ -119,7 +114,7 @@ def profil(username):
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.run()
+    app.run('127.0.0.1', '4000')
 
 
 if __name__ == '__main__':
