@@ -1,28 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
 
 
 {% block content %}
 {% if current_user.is_authenticated %}
-<div class="col-md-12">
-	{% for item in topics %}
-	<div class="card mb-3">
-		<div class="card-header">
-			{% if item.user_id %}
-			Вопрос от <a href="{{ url_for('profil', username=user[item.user_id][-1]) }}">{{ ' '.join(user[item.user_id][:-1]) }}</a>
-			{% else %}
-			Вопрос от неизвестного
-			{% endif %}
-        </div>
-		<div class="card-body">
-			<h5 class="card-title">{{ item.header }}</h5>
-			<p class="col-8 text-truncate">{{ item.content }}</p>
-			<a href="{{ url_for('sometopic', id_topic=item.id, name_topic=item.header) }}" class="btn btn-primary">Read more</a>
-		</div>
-		<div class="card-fotter text-muted" style="margin-left: 15px;">
-			{{item.created_at.strftime('%d.%m.%Y %H:%M:%S')}}
-		</div>
-	</div>
-	{% endfor %}
-</div>
+<div class="topics">
+    {% for item_topics in topics %}
+    <div class="topic">
+      <div class="topic_info_text">
+        <a href="{{ url_for('sometopic', id_topic=item_topics.id, name_topic=item_topics.header) }}" class="topic_header">{{ item_topics.header }}</a>
+        <span class="topic_text">{{ item_topics.content }}</span>
+      </div>
+      <div class="topic_info_user">
+        <img alt="Не удалось загрузить изображение" src="" class="user_logo">
+        <a href="{{ url_for('profil', username=user[item_topics.user_id][-1]) }}" class="user_link">{{ ' '.join(user[item_topics.user_id][:-1]) }}</a>
+        <span class="date">{{item_topics.created_at.strftime('Задан %d.%m.%Y в %H:%M:%S')}}</span>
+      </div>
+    </div>
+    {% endfor %}
 {% endif %}
 {% endblock %}

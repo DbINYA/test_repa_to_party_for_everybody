@@ -1,32 +1,30 @@
 {% extends "base.html" %}
 
 
+{% block title %}
+{{title}}
+{% endblock %}
+
+
 {% block content %}
 <div class="form log">
   <span class="header_form">{{title}}</span>
-  <h3>{{message}}</h3>
+  <b>{{message}}</b>
   <form action="" method="post">
     {{ form.hidden_tag() }}
-    <p>
-      {{ form.email.label }}<br>
-      {{ form.email(type="email") }}<br>
+      {{ form.email(placeholder="Почта", type="email") }}<br>
       {% for error in form.email.errors %}
       <div class="alert alert-danger" role="alert">
         {{ error }}
       </div>
       {% endfor %}
-    </p>
-    <p>
-      {{ form.password.label }}<br>
-      {{ form.password(type="password") }}<br>
+      {{ form.password(placeholder="Пароль", type="password") }}<br>
       {% for error in form.password.errors %}
       <div class="alert alert-danger" role="alert">
         {{ error }}
       </div>
       {% endfor %}
-    </p>
-    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+      {{ form.submit(type="submit", class="submit", value="Войти") }}
   </form>
   <span class="after_form">Нет аккаунта?<a href="/signup">Зарегистрироваться</a></span>
 </div>
