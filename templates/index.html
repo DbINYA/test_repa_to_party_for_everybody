@@ -11,8 +11,11 @@
         <span class="topic_text">{{ item_topics.content }}</span>
       </div>
       <div class="topic_info_user">
-        <img alt="Не удалось загрузить изображение" src="" class="user_logo">
-        <a href="{{ url_for('profil', username=user[item_topics.user_id][-1]) }}" class="user_link">{{ ' '.join(user[item_topics.user_id][:-1]) }}</a>
+        {% if user[item_topics.user_id][-2] %}
+        {% else %}
+        <img alt="" src="{{url_for('static', filename='imgs/avatar.png')}}" class="user_logo">
+        {% endif %}
+        <a href="{{ url_for('profil', username=user[item_topics.user_id][-1]) }}" class="user_link">{{ ' '.join(user[item_topics.user_id][:-2]) }}</a>
         <span class="date">{{item_topics.created_at.strftime('Задан %d.%m.%Y в %H:%M:%S')}}</span>
       </div>
     </div>

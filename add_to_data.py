@@ -12,5 +12,5 @@ def add_all_info(my_db, **kwargs):
 def work_with_date_users(list_of_ex):
 	slovar = {}
 	for i in list_of_ex:
-		slovar[i.id] = [i.surname, i.name, i.patronymic, i.email]
+		slovar[i.id] = [i.surname, i.name, i.patronymic, i.ava_photo, i.email]
 	return slovar
