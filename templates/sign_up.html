@@ -5,6 +5,9 @@
 {{title}}
 {% endblock %}
 
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}
 
 {% block content %}
 <div class="form reg">

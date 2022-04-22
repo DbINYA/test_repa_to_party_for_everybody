@@ -18,6 +18,7 @@ def load_user(user_id):
 
 
 app.add_url_rule('/', view_func=home)
+app.add_url_rule('/<string:search>', view_func=search, methods=['GET', 'POST'])
 app.add_url_rule('/signup', view_func=register, methods=['GET', 'POST'])
 app.add_url_rule('/signin', view_func=login, methods=['GET', 'POST'])
 app.add_url_rule('/logout', view_func=logout)
@@ -28,7 +29,7 @@ app.add_url_rule('/<string:username>', view_func=profil)
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.run('127.0.0.1', '4000')
+    app.run('127.0.0.1', '4000', debug=True)
 
 
 if __name__ == '__main__':

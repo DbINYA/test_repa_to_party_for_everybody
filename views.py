@@ -83,11 +83,21 @@ def addquestion():
 
 @login_required
 def sometopic(id_topic, name_topic):
-    topic = db_session.create_session().query(Topics).filter(Topics.id == id_topic).first()
-    return render_template('topic.html', topics=topic)
+    db_sess = db_session.create_session()
+    topic = db_sess.query(Topics).filter(Topics.id == id_topic).first()
+    user = work_with_date_users(db_sess.query(User).all())
+    return render_template('topic.html', topics=topic, user=user)
 
 
 @login_required
 def profil(username):
     user = db_session.create_session().query(User).filter(User.email == username).first()
     return render_template('user_page.html', person=user)
+
+
+def search(search):
+    db_sess = db_session.create_session()
+    topics_sorted_by_data = db_sess.query(Topics)
+    topics = topics_sorted_by_data.filter(search in Topics.header).all()
+    user = work_with_date_users(db_sess.query(User).all())
+    return render_template('index.html', topics=topics, user=user)
