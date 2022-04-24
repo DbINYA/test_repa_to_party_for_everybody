@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='add_topic.css')}}">
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    <span>Задать вопрос</span>
+    {{form.header(class="header__topic", maxlength="150", type="text", placeholder="Заголовок вопроса")}}
+    {% for error in form.header.errors %}
+    <p class="alert alert-danger" role="alert">
+      {{ error }}
+    </p>
+    {% endfor %}
+    {{ form.content(placeholder="Текст темы") }}
+    {% for error in form.content.errors %}
+    <p class="alert alert-danger" role="alert">
+      {{ error }}
+    </p>
+    {% endfor %}
+    {{ form.submit(type="submit", class="add__btn", value="Задать вопрос") }}
+  </form>
+{% endblock %}
