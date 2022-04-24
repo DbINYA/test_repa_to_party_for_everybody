@@ -68,3 +68,25 @@
 .topic .topic_info_user .date {
   color: gray;
 }
+.paginate_block {
+
+}
+.paginate_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid #FED6BC;
+  height: 40px;
+  width: 40px;
+  transition: .4s;
+  color: #FED6BC;
+}
+.paginate_btn:hover {
+  transition: .4s;
+  color: white;
+  background: #FED6BC;
+  box-shadow: 0 0 0 3px rgba(254, 214, 188, 0.6), 0 0 0 6px rgba(254, 214, 188, 0.3);
+}
