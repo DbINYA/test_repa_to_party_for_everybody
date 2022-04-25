@@ -1,0 +1,267 @@
+:root {
+    --text: rgb(37, 37, 37);
+}
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url(../fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Roboto-Light';
+    src: url(../fonts/Roboto-Light.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto-Regular';
+}
+
+h1, h2, h3, h4 {
+    color: var(--text);
+    font-family: 'Roboto-Light';
+}
+
+a {
+    text-decoration: none;
+    color: var(--text);
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    width: 100%;
+    height: 7vh;
+    background: linear-gradient(269.89deg, #E57373 0%, #FFE0B2 99.99%, rgba(196, 196, 196, 0) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.nav__link {
+    transition: all 0.15s ease;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+}
+
+.nav__link:hover {
+    border-bottom: 1px solid black;
+}
+
+.header__title {
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.header__nav__ul {
+    display: flex;
+    list-style: none;
+    gap: 2em;
+}
+
+.search__form {
+    overflow: hidden;
+    display: flex;
+    height: 55%;
+    width: 20%;
+    border-radius: 10px;
+}
+
+.search__form__input {
+    width: 70%;
+    border: none;
+    outline: none;
+    padding: 0 1em;
+    border-radius: 11px 0 0 12px;
+}
+
+.search__form__submit {
+    cursor: pointer;
+    color: var(--text);
+    font-size: 1em;
+    width: 30%;
+    border: none;
+    outline: none;
+    border-radius: 0 10px 10px 0;
+    background-color: #ffb2b2;
+    transition: all 0.15s ease;
+}
+
+.search__form__submit:hover {
+    background-color: #d09595;
+}
+
+.search__form__submit:active {
+    background-color: #a77575;
+}
+
+
+/*
+    Main
+*/
+
+main {
+    width: 100%;
+    min-height: 93vh;
+    padding: 10vh 15vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.percent {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.per80 {
+    width: 80%;
+}
+
+.questions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2em;
+}
+
+.question {
+    position: relative;
+    width: 80%;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 1em 2em 6em 2em;
+}
+
+.question__title {
+    font-family: 'Roboto-Light';
+    margin-bottom: 1em;
+}
+
+.meta {
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.meta__user__username {
+    color: #E57373;
+}
+
+.meta__user {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.meta__user__ava {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+/*
+    Pagination
+*/
+
+.pagination {
+    width: max-content;
+    height: 41px;
+    border: 1px solid #E57373;
+    border-radius: 10px;
+    display: flex;
+}
+
+.pagination__btn {
+    user-select: none;
+    height: 40px;
+    width: 40px;
+    background-color: #E57373;
+    color: white;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination__btn:active {
+    background-color: #af5d5d;
+}
+
+.pagination__number {
+    user-select: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.pagination__number:hover {
+    background-color: #E57373;
+    color: white;
+}
+
+.pagination__number:active {
+    background-color: #af5d5d;
+}
+
+.noncursor {
+    cursor: default;
+}
+
+.btn__active {
+    background-color: #E57373;
+    color: white;
+}
+
+.btn__left {
+    border-radius: 10px 0 0 10px;
+}
+.btn__right {
+    border-radius: 0 10px 10px 0;
+}
+.pagination__pagesList {
+    width: 280px;
+    display: flex;
+}
+
+
+
+
+/*
+
+    footer
+
+*/
+
+
+footer {
+    width: 100%;
+    height: 15vh;
+    background: linear-gradient(269.89deg, #E57373 0%, #FFE0B2 99.99%, rgba(196, 196, 196, 0) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.footer__search {
+    height: 30%;
+}
