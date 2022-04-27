@@ -1,0 +1,4 @@
+{
+  "RU": ["Задать вопрос", "Профиль", "Выйти", "Войти", "Зарегистрироваться", "Мы - ваша поддержка", "Станьте одним из тех, кто хочет помочь", "E-mail", "Пароль", "Повтор пароля", "Имя", "Фамилия", "Отчество", "Введите запрос", "Поиск", "Заголовок вопроса", "Текст темы", "Пользователь", "Родитель-эксперт", "Эксперт", "Администратор", "О себе", "Задан", "Ваш ответ", "Ответить", "Язык"],
+  "EU": ["Ask question", "Profile", "Sing out", "Sign in", "Sign up", "We are you're support", "Become one of those want to help", "E-mail", "Password", "Repeat password", "Name", "Surname", "Patronymic", "Enter request", "Search", "Question's title", "Topic's text", "User", "Parent-expert", "Expert", "Administrator", "About me", "Asked on", "You're answer", "Give answer", "Lang"]
+}

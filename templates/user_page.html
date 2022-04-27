@@ -2,29 +2,26 @@
 
 
 {% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='profil.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="main__user">
-
 	<div class="main__user__img">
-		<img src="{{url_for('static', filename='imgs/avatar.png')}}" alt="">
+		<img src="{{url_for('static', filename='imgs/ava.jpg')}}" alt="">
 	</div>
 	<div class="main__user__information">
-
-
 		<div class="main__user__information__fio">
 			<div class="main__user__fio">
 				<h2 class="user__fio">{{person.name}} {{person.surname}} {{person.patronymic}}</h2>
 				<a class="user__edit"><img src="{{url_for('static', filename='imgs/edit.png')}}" alt=""></a>
 			</div>
-			<p class="user__role">{{person.role}}</p>
+			<p class="user__role">{{list_lang_site[lang_now][list_lang_site['RU'].index(person.role)]}}</p>
 		</div>
 		{% if person.about %}
 		<div class="main__user__information__about">
-
-			<h2>О себе:</h2>
+			<h2>{{list_lang_site[lang_now][21]}}:</h2>
 			<p>{{person.about}}</p>
 		</div>
 		{% endif %}

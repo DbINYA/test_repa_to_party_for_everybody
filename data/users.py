@@ -16,7 +16,7 @@ class User(SqlAlchemyBase, UserMixin):
     ava_photo = sqlalchemy.Column(sqlalchemy.LargeBinary, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    role = sqlalchemy.Column(sqlalchemy.String, default='Пользователь', nullable=True) # пользователь-администратор, родитель-эксперт, эксперт
+    role = sqlalchemy.Column(sqlalchemy.String, default='Пользователь', nullable=True) # администратор, родитель-эксперт, эксперт
     about = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __repr__(self):

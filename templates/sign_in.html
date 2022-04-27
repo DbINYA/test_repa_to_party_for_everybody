@@ -6,29 +6,35 @@
 {% endblock %}
 
 {% block links %}
-<link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="form log">
-  <span class="header_form">{{title}}</span>
-  <b>{{message}}</b>
-  <form action="" method="post">
-    {{ form.hidden_tag() }}
-      {{ form.email(placeholder="Почта", type="email") }}<br>
-      {% for error in form.email.errors %}
-      <div class="alert alert-danger" role="alert">
-        {{ error }}
-      </div>
-      {% endfor %}
-      {{ form.password(placeholder="Пароль", type="password") }}<br>
-      {% for error in form.password.errors %}
-      <div class="alert alert-danger" role="alert">
-        {{ error }}
-      </div>
-      {% endfor %}
-      {{ form.submit(type="submit", class="submit", value="Войти") }}
-  </form>
-  <span class="after_form">Нет аккаунта?<a href="/signup">Зарегистрироваться</a></span>
+<div class="main__about">
+  <h1>{{list_lang_site[lang_now][5]}}</h1>
+  <p>{{list_lang_site[lang_now][6]}}</p>
 </div>
+
+<form class="form" method="post" action="">
+  <h2>{{title}}</h2>
+  <b>{{message}}</b>
+  {{ form.hidden_tag() }}
+  {{ form.email(class="form__input input", type="email", placeholder=list_lang_site[lang_now][7]) }}
+  {% for error in form.email.errors %}
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+  {% endfor %}
+  {{ form.password(class="form__input input", type="password", placeholder=list_lang_site[lang_now][8]) }}
+  {% for error in form.password.errors %}
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+  {% endfor %}
+  {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][3]) }}
+</form>
+
+<img class="main__img" src="{{ url_for('static', filename='imgs/auth.png') }}" alt="">
 {% endblock %}
+
+
