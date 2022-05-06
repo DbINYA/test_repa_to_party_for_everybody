@@ -1,7 +1,5 @@
 from flask import Flask, render_template, redirect, request, flash
 
-from base64 import b64encode
-
 import json
 
 from data import db_session
@@ -116,27 +114,7 @@ def addquestion(lang=global_lang_of_site):
     global_lang_of_site = lang
     form = TopicsForm()
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        files = request.files.getlist('file[]')
-        topic = Topics(header=form.header.data, content=form.content.data, user_id=current_user.get_id())
-        koev = len(db_sess.query(Topics).all()) + 1
-        db_sess.add(topic)
-        db_sess.commit()
-        # add_all_info(my_db=Topics(), header=form.header.data, content=form.content.data, user_id=current_user.get_id())
-        for file in files:
-            if file:
-
-                mimetype = file.content_type
-                if mimetype in ['image/jpeg', 'image/png']:
-
-                    image = Photos(photos_url=file.read(), topics_id=koev)
-
-                    db_sess = db_session.create_session()
-                    db_sess.add(image)
-                    db_sess.commit()
-
-                else:
-                    flash('Недопустимый формат файлов')
+        add_all_info(my_db=Topics(), header=form.header.data, content=form.content.data, user_id=current_user.get_id())
         return redirect('/homeforum/')
     return render_template('question.html', title=list_lang_site[lang][0], form=form, flag=FLAG,
                            list_lang_site=list_lang_site, lang_now=lang, lang_btn=False)
@@ -148,21 +126,8 @@ def sometopic(id_topic, name_topic, lang=global_lang_of_site):
     db_sess = db_session.create_session()
     topic = db_sess.query(Topics).filter(Topics.id == id_topic).first()
     user = work_with_date_users(db_sess.query(User).all())
-
-    images = db_sess.query(Photos).filter(Photos.topics_id == topic.id).all()
-
-    if images:
-        attach_files = []
-        for image in images:
-            img = b64encode(image.photos_url).decode("utf-8")
-            attach_files.append(img)
-        return render_template('topic.html', topics=topic, user=user, flag=FLAG, 
-                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=False, attachment=True)
-
     return render_template('topic.html', topics=topic, user=user, flag=FLAG, 
-                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=False, attachment=False)
-    # return render_template('topic.html', topics=topic, user=user, flag=FLAG, 
-    #                        list_lang_site=list_lang_site, lang_now=lang, lang_btn=False)
+                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=False)
 
 
 @login_required
