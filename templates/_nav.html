@@ -14,6 +14,7 @@
 <body>
   <header>
     <a href="{{ url_for('home', lang=lang_now) }}" class="header__title"> <h1>World With You</h1> </a>
+    <div style="display: flex; align-items: center; gap: 3em;">
     <nav class="header__nav">
       <ul class="header__nav__ul">
         {% if not current_user.is_authenticated %}
@@ -27,19 +28,22 @@
       </ul>
     </nav>
 
-    {% if not current_user.is_authenticated %}
-    <div class="change__lang">
-      <button class="btn__change">{{ list_lang_site[lang_now][25] }}</button>
-
-      <div class="langs">
-        <a href="{{ url_for('home', lang='RU') }}">Русский</a>
-        <a href="{{ url_for('home', lang='EU') }}">English</a>
-      </div>
-
-    </div>
+    {% if lang_btn %}
+    {% if lang_now == 'EU' %}
+      <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
+        <option value="{{ url_for('home', lang='EU') }}" >Eng</option>
+        <option value="{{ url_for('home', lang='RU') }}" >Rus</option>
+      </select>
+    {% else %}
+    <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
+        <option value="{{ url_for('home', lang='RU') }}" >Rus</option>
+        <option value="{{ url_for('home', lang='EU') }}" >Eng</option>
+      </select>
     {% endif %}
+    {% endif %}
+    </div>
 
-
+    
     {% if current_user.is_authenticated %}
     {% if flag %}
     <form class="search__form" action="" method="post">
@@ -47,33 +51,8 @@
       {{ form_search.search(class="search__form__input", type="text", placeholder=list_lang_site[lang_now][13]) }}
       {{ form_search.submit(class="search__form__submit", type="submit", value=list_lang_site[lang_now][14]) }}
     </form>
-    {% else %}
-    <div class="change__lang">
-      <button class="btn__change">{{ list_lang_site[lang_now][25] }}</button>
-
-      <div class="langs">
-        <a href="{{ url_for('home', lang='RU') }}">Русский</a>
-        <a href="{{ url_for('home', lang='EU') }}">English</a>
-      </div>
-
-    </div>
     {% endif %}
     {% endif %}
   </header>
-  <script>
-    const btn = document.querySelector('.change__lang');
-    const langs = document.querySelector('.langs');
-    let active = false;
-    btn.addEventListener('click', () => {
-      if (!active) {
-        langs.classList.add('langs__active');
-        active = true;
-      }
-      else {
-        langs.classList.remove('langs__active');
-        active = false;
-      }
-    });
-  </script>
 </body>
 </html>

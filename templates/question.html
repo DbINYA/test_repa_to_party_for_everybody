@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block links %}
-<link rel="stylesheet" href="{{ url_for('static', filename='add_topic.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 
@@ -10,21 +9,30 @@
 {% endblock %}
 
 {% block content %}
-  <form action="" method="post">
+<div class="fullwidth">
+  <form class="container" action="" method="post">
     {{ form.hidden_tag() }}
     <p>{{ list_lang_site[lang_now][0] }}</p>
-    {{form.header(class="header__topic", maxlength="150", type="text", placeholder=list_lang_site[lang_now][15])}}
+    {{form.header(class="input askInput", type="text", placeholder=list_lang_site[lang_now][15])}}
     {% for error in form.header.errors %}
     <p class="alert alert-danger" role="alert">
       {{ error }}
     </p>
     {% endfor %}
-    {{ form.content(placeholder=list_lang_site[lang_now][16]) }}
+    <label class="flex-col" for="">
+    {{list_lang_site[lang_now][16]}}
+    {{ form.content(style="resize: none;", class="input askInput", cols="30", rows="10") }}
+    </label>
     {% for error in form.content.errors %}
     <p class="alert alert-danger" role="alert">
       {{ error }}
     </p>
     {% endfor %}
-    {{ form.submit(type="submit", class="add__btn", value=list_lang_site[lang_now][0]) }}
+    <label class="flex-col" for="">
+      {{list_lang_site[lang_now][26]}}
+      <input type="file" name="file" id="file">
+    </label>
+    {{ form.submit(type="submit", class="btn", value=list_lang_site[lang_now][0]) }}
   </form>
+</div>
 {% endblock %}

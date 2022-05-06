@@ -14,7 +14,5 @@ class Topics(SqlAlchemyBase):
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
 
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
-    photo_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("photos.id"))
 
     user = orm.relationship('User')
-    photos = orm.relationship('Photos')

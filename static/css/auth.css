@@ -48,7 +48,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    gap: 29vw;
+    gap: 10vw;
 }
 
 .header__title {
@@ -69,6 +69,43 @@ header {
 .nav__link:hover {
     border-bottom: 1px solid black;
 }
+
+.btnLang * {
+    user-select: none;
+    font-family: 'Roboto-Regular';
+}
+
+.btnLang {
+    user-select: none;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0.4em 0;
+    padding-right: 1em;
+    border: 1px solid white;
+    color: white;
+    border-radius: 10px;
+    font-size: 1em;
+    transition: all 0.15s ease;
+    width: max-content;
+    margin: 1em 0;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1em;
+}
+
+.btnLang:hover {
+    color: #E57373;
+    background-color: white;
+    border: 1px solid transparent;
+}
+
+.btnLang:active {
+    border: 1px solid white;
+    background-color: rgba(255, 255, 255, 0.582);
+}
+
 
 /*
     Main
@@ -125,6 +162,7 @@ main {
 }
 
 .btn {
+    user-select: none;
     cursor: pointer;
     background-color: transparent;
     padding: 0.5em 1em;
@@ -140,46 +178,48 @@ main {
     color: white;
 }
 
+
 .main__img {
     position: absolute;
     bottom: 0;
     left: 15%;
 }
-.btn__change {
-  padding: 0.6em;
-  border-radius: 10px;
-  border: 1px solid lightgrey;
-  cursor: pointer;
-  color: var(--text);
-  font-size: 1em;
-  outline: none;
-  background-color: #ffb2b2;
-  transition: all 0.15s ease;
-}
-.btn__change:hover {
-  transition: all 0.15s ease;
-  background-color: #d09595;
+
+@media screen and (max-width: 1080px) {
+    main {
+        flex-direction: column;
+        align-items: center;
+        gap: 2em;
+    }
+
+    .main__about {
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    header {
+        gap: 10vw;
+    }
+
+    main {
+        padding: 0;
+    }
+
+    .main__img {
+        display: none;
+    }
 }
 
-/*asfsaf*/
-.langs {
-  padding: 1em;
-  display: none;
-  background: white;
-}
-.langs__active {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 10px;
-  position: fixed;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-}
-.langs__active a{
-  cursor: pointer;
-}
-.langs__active a:hover {
-  background: lightgrey;
+@media screen and (max-width: 600px) {
+    header {
+        gap: 0;
+        flex-direction: column;
+    }
+
+    
+
+    .form {
+        width: 80%;
+    }
+    
 }

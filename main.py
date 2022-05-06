@@ -43,7 +43,7 @@ app.add_url_rule('/homeforum/profile/<string:username>', view_func=profil)
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.run()
+    app.run('127.0.0.1', '8000', debug=True)
 
 
 if __name__ == '__main__':

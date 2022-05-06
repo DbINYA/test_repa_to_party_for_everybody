@@ -1,15 +1,8 @@
 {% include '_nav.html' %}
 
 
-<!doctype html>
-  <html lang="ru">
-  <head>
-    {% block links %}
-    {% endblock %}
-  </head>
-  <body>
-    <main>
-      {% block content %}{% endblock %}
-    </main>
-  </body>
-  </html>
+{% block links %}
+{% endblock %}
+<main>
+  {% block content %}{% endblock %}
+</main>
