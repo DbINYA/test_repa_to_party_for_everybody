@@ -7,11 +7,13 @@ from data import db_session
 from data.photos import Photos
 from data.users import User
 from data.topics import Topics
+from data.comments import Comments
 
 from search_form import SearchForm
 from signin_form import LoginForm
 from signup_form import RegisterForm
 from topic_form import TopicsForm
+from comments_form import CommentsForm
 
 import datetime
 
@@ -76,7 +78,7 @@ def register(lang=global_lang_of_site):
             name=form.name.data,
             surname=form.surname.data,
             patronymic=form.pat.data,
-            email=form.email.data,
+            email=form.email.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -126,13 +128,41 @@ def sometopic(id_topic, name_topic, lang=global_lang_of_site):
     db_sess = db_session.create_session()
     topic = db_sess.query(Topics).filter(Topics.id == id_topic).first()
     user = work_with_date_users(db_sess.query(User).all())
+    comments_to_topic = db_sess.query(Comments).filter(Comments.topics_id == topic.id).all()
+    form = CommentsForm()
+
+    if form.validate_on_submit():
+        if form.answer.data:
+            comment = Comments(
+            content=form.answer.data,
+            user_id=current_user.get_id(),
+            topics_id=topic.id)
+            db_sess.add(comment)
+            db_sess.commit()
+
+            comments_to_topic = db_sess.query(Comments).filter(Comments.topics_id == topic.id).all()
+
+            return redirect('/homeforum/' + lang + '/' + str(id_topic) + '/' + name_topic)
+
     return render_template('topic.html', topics=topic, user=user, flag=FLAG, 
-                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=False)
+                           list_lang_site=list_lang_site, lang_now=lang, form=form,
+                           comments_to_topic=comments_to_topic, lang_btn=False)
 
 
 @login_required
 def profil(username, lang=global_lang_of_site):
     global_lang_of_site = lang
-    user = db_session.create_session().query(User).filter(User.email == username).first()
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.email == username).first()
+    questions_of_user = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.user_id == user.id).all()
+    answers_of_user = db_sess.query(Comments).order_by(desc(Comments.created_at)).filter(Comments.user_id == user.id).all()
+    users_answer_with_keys = work_with_date_topics(db_sess.query(Topics).all())
     return render_template('user_page.html', person=user, flag=FLAG, 
-                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=True)
+                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=True, 
+                           questions_of_user=questions_of_user, answers_of_user=answers_of_user, users_answer_with_keys=users_answer_with_keys)
+
+
+@login_required
+def profil_edit(username, lang=global_lang_of_site):
+    global_lang_of_site = lang
+    pass

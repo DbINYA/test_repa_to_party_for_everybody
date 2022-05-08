@@ -14,25 +14,43 @@
       <h1>{{topics.header}}</h1>
       <div class="ask__author">
         <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
-        <a href="{{ url_for('profil', username=user[topics.user_id][-1]) }}" class="ask__author__fio">{{ ' '.join(user[topics.user_id][:-2]) }}</a>
+        <a href="{{ url_for('profil', username=user[topics.user_id][4]) }}" class="ask__author__fio">{{ ' '.join(user[topics.user_id][:3]) }}</a>
         <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + topics.created_at.strftime(' %d.%m.%Y')}}</span>
       </div>
     </div>
 
     <p class="ask__text">{{ topics.content }}</p>
 
-    {% if attachment %}
-        {% for img in attach_files %}
-            <img src="data:;base64,{{ img }}"/>
-        {% endfor %}
-    {% endif %}
-
     <div class="hr"></div>
+
+    {% if comments_to_topic %}
+    <h2>Ответы:</h2>
+    <div class="answers">
+
+      {% for item_comment in comments_to_topic %}
+      <div class="answer">
+        <div class="ask__author">
+          <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
+          <a href="{{ url_for('profil', username=user[item_comment.user_id][4]) }}" class="ask__author__fio">{{ ' '.join(user[item_comment.user_id][:3]) }}</a>
+          <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + item_comment.created_at.strftime(' %d.%m.%Y')}}</span>
+        </div>
+        <p>{{ item_comment.content }}</p>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% endif %}
 
     <form class="answer__form" action="" method="post">
       <h2>{{ list_lang_site[lang_now][23] }}</h2>
-      <textarea class="input answer_textarea" name="" id="" cols="30" rows="10"></textarea>
-      <input type="submit" class="btn" value="Ответить">
+      {{ form.hidden_tag() }}
+      {{ form.answer(class="input answer_textarea", cols="30", rows="10") }}
+      {% for error in form.answer.errors %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][24]) }}
     </form>
 
   </div>

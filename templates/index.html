@@ -22,7 +22,7 @@
         {% else %}
         <img class="meta__user__ava" src="{{ url_for('static', filename='imgs/ava.jpg') }}" alt="">
         {% endif %}
-        <a class="meta__user__username" href="{{ url_for('profil', username=user[item_topics.user_id][-1], lang=lang_now) }}">{{ ' '.join(user[item_topics.user_id][:-2]) }}</a>
+        <a class="meta__user__username" href="{{ url_for('profil', username=user[item_topics.user_id][4], lang=lang_now) }}">{{ ' '.join(user[item_topics.user_id][:3]) }}</a>
       </div>
       <p>{{ list_lang_site[lang_now][22] }} <span>{{item_topics.created_at.strftime('%d.%m.%Y')}}</span></p>
     </div>

@@ -12,6 +12,8 @@ class Comments(SqlAlchemyBase):
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
 
+    topics_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("topics.id"))
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
 
+    topics = orm.relationship('Topics')
     user = orm.relationship('User')
