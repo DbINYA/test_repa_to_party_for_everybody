@@ -2,31 +2,57 @@
 
 {% block links %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='topic.css')}}">
 {% endblock %}
 
 {% block title %}{{ topics.header }}{% endblock %}
 
 {% block content %}
-<div class="topic__wrapper">
+<div class="fullwidth">
+  <div class="container answer__container">
 
-  <div class="topic__data">
-    <span class="topic__header">{{topics.header}}</span>
-    <div class="user__data">
-      <span class="topic__datetime">{{ list_lang_site[lang_now][22] + topics.created_at.strftime(' %d.%m.%Y')}}</span>
-      {% if user[topics.user_id][-2] %}
-      {% else %}
-      <img src="data:image/jpeg;base64,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" alt="" class="user__logo">
-      {% endif %}
-      <a href="{{ url_for('profil', username=user[topics.user_id][-1]) }}" class="user__link">{{ ' '.join(user[topics.user_id][:-2]) }}</a>
+    <div class="ask__title">
+      <h1>{{topics.header}}</h1>
+      <div class="ask__author">
+        <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
+        <a href="{{ url_for('profil', username=user[topics.user_id][4]) }}" class="ask__author__fio">{{ ' '.join(user[topics.user_id][:3]) }}</a>
+        <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + topics.created_at.strftime(' %d.%m.%Y')}}</span>
+      </div>
     </div>
-  </div>
-  <span class="topic__text">{{ topics.content }}</span>
 
-  <form action="">
-    <span>{{ list_lang_site[lang_now][23] }}</span>
-    <textarea name=""></textarea>
-    <input class="add__btn" type="submit" value={{list_lang_site[lang_now][24]}}>
-  </form>
+    <p class="ask__text">{{ topics.content }}</p>
+
+    <div class="hr"></div>
+
+    {% if comments_to_topic %}
+    <h2>Ответы:</h2>
+    <div class="answers">
+
+      {% for item_comment in comments_to_topic %}
+      <div class="answer">
+        <div class="ask__author">
+          <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
+          <a href="{{ url_for('profil', username=user[item_comment.user_id][4]) }}" class="ask__author__fio">{{ ' '.join(user[item_comment.user_id][:3]) }}</a>
+          <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + item_comment.created_at.strftime(' %d.%m.%Y')}}</span>
+        </div>
+        <p>{{ item_comment.content }}</p>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% endif %}
+
+    <form class="answer__form" action="" method="post">
+      <h2>{{ list_lang_site[lang_now][23] }}</h2>
+      {{ form.hidden_tag() }}
+      {{ form.answer(class="input answer_textarea", cols="30", rows="10") }}
+      {% for error in form.answer.errors %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][24]) }}
+    </form>
+
+  </div>
 </div>
 {% endblock %}

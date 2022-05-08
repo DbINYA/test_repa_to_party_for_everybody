@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>World With You</title>
+
+    <link rel="stylesheet" href="../static/css/index.css">
+</head>
+<body>
+    
+    <header>
+        <a href="#" class="header__title"> <h1>World With You</h1> </a>
+
+        <nav class="header__nav">
+            <ul class="header__nav__ul">
+                <li><a class="nav__link" href="#">Задать вопрос</a></li>
+                <li><a class="nav__link" href="#">Профиль</a></li>
+                <li><a class="nav__link" href="#">Выйти</a></li>
+            </ul>
+        </nav>
+
+        <form class="search__form" action="">
+            <input class="search__form__input" type="text" placeholder="Введите запрос">
+            <input class="search__form__submit" type="submit" value="Поиск">
+        </form>
+
+        <select name="" class="btnLang" id="btnLang">
+            <option value="Rus" >Rus</option>
+            <option value="Eng" >Eng</option>
+        </select>
+    </header>
+
+    <main>
+
+        <div class="fullwidth">
+            <div class="profile__container">
+
+                <img src="../static/imgs/ava.jpg" class="profile__avatar" alt="">
+
+                <form class="profile__main__form" method="post">
+                    <h2>Редактирование профиля</h2>
+
+                    <input type="text" class="input profileInput"  placeholder="Фамилия">
+                    <input type="text" class="input profileInput"  placeholder="Имя">
+                    <input type="text" class="input profileInput"  placeholder="Отчество">
+    
+                    <label class="flex-col profile__label">
+                        О себе
+                        <textarea style="resize: none;" class="input profileInput" name="" id="" cols="30" rows="10"></textarea>
+                    </label>
+
+                    <label class="flex-col" for="">
+                        Аватар
+                        <input type="file" name="" id="">
+                    </label>
+
+                    <input type="submit" class="btn" value="Сохранить">
+                </form>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+
+        <a href="#" class="header__title"> <h1>World With You</h1> </a>
+
+        <nav class="header__nav">
+            <ul class="header__nav__ul">
+                <li><a class="nav__link" href="#">Задать вопрос</a></li>
+                <li><a class="nav__link" href="#">Профиль</a></li>
+                <li><a class="nav__link" href="#">Выйти</a></li>
+            </ul>
+        </nav>
+
+        <form class="search__form footer__search" action="">
+            <input class="search__form__input" type="text" placeholder="Введите запрос">
+            <input class="search__form__submit" type="submit" value="Поиск">
+        </form>
+
+    </footer>
+
+
+    <script src="../static/js/main.js"></script>
+</body>
+</html>
