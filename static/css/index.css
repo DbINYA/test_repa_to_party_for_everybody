@@ -435,6 +435,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 2em;
+    width: 100%;
 }
 
 .profile__main__form {
@@ -486,7 +487,7 @@ main {
 }
 
 .last__wrap__article h3 b {
-    margin-left: 1em;
+    margin-left: 0.3em;
 }
 
 .last__wrap__article__meta {
@@ -582,6 +583,7 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 95%;
     }
 
     .profile__last__answers {
@@ -589,10 +591,12 @@ footer {
         flex-direction: column;
         align-items: center;
         margin-top: 3em;
+        width: 95%;
     }
 
     .profile__last__wrap {
         align-items: center;
+        width: 100%;
     }
 
     .last__wrap__article {

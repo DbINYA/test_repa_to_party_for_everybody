@@ -18,11 +18,11 @@
     <p class="question__about">{{ item_topics.content }}</p>
     <div class="meta">
       <div class="meta__user">
-        {% if user[item_topics.user_id][-2] %}
+        {% if user[item_topics.user_id][3] %}
         {% else %}
         <img class="meta__user__ava" src="{{ url_for('static', filename='imgs/ava.jpg') }}" alt="">
         {% endif %}
-        <a class="meta__user__username" href="{{ url_for('profil', username=user[item_topics.user_id][4], lang=lang_now) }}">{{ ' '.join(user[item_topics.user_id][:3]) }}</a>
+        <a class="meta__user__username" href="{{ url_for('profil', username_id=item_topics.user_id, lang=lang_now) }}">{{ ' '.join(user[item_topics.user_id][:3]) }}</a>
       </div>
       <p>{{ list_lang_site[lang_now][22] }} <span>{{item_topics.created_at.strftime('%d.%m.%Y')}}</span></p>
     </div>

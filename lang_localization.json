@@ -1,4 +1,26 @@
 {
-  "RU": ["Задать вопрос", "Профиль", "Выйти", "Войти", "Регистрация", "Мы - ваша поддержка", "Станьте одним из тех, кто хочет помочь", "E-mail", "Пароль", "Повтор пароля", "Имя", "Фамилия", "Отчество", "Введите запрос", "Поиск", "Заголовок вопроса", "Текст темы", "Пользователь", "Родитель-эксперт", "Эксперт", "Администратор", "О себе", "Задан", "Ваш ответ", "Ответить", "Язык", "Изображение"],
-  "EU": ["Ask question", "Profile", "Sing out", "Sign in", "Sign up", "We are you're support", "Become one of those want to help", "E-mail", "Password", "Repeat password", "Name", "Surname", "Patronymic", "Enter request", "Search", "Question's title", "Topic's text", "User", "Parent-expert", "Expert", "Administrator", "About me", "Asked on", "You're answer", "Give answer", "Lang", "Picture"]
+  "RU": ["Задать вопрос", "Профиль", "Выйти", 
+         "Войти", "Регистрация", "Мы - ваша поддержка", 
+         "Станьте одним из тех, кто хочет помочь", "E-mail", "Пароль", 
+         "Повтор пароля", "Имя", "Фамилия", 
+         "Отчество", "Введите запрос", "Поиск", 
+         "Заголовок вопроса", "Текст темы", "Пользователь", 
+         "Родитель-эксперт", "Эксперт", "Администратор", 
+         "О себе", "Задан", "Ваш ответ", 
+         "Ответить", "Язык", "Изображение",
+         "Ответы", "Пароли не совпадают", "Неправильный E-mail или пароль",
+         "Пользователь с такой почтой уже есть", "Допустимые форматы файлов: png, jpeg. Файлы иного формата не будут загружены", "Сохранить",
+         "Мои последние вопросы", "Мои последние ответы", "Ответ на"],
+  "EU": ["Ask question", "Profile", "Sing out", 
+         "Sign in", "Sign up", "We are you're support", 
+         "Become one of those want to help", "E-mail", "Password", 
+         "Repeat password", "Name", "Surname", 
+         "Patronymic", "Enter request", "Search", 
+         "Question's title", "Topic's text", "User", 
+         "Parent-expert", "Expert", "Administrator", 
+         "About me", "Asked on", "You're answer", 
+         "Give answer", "Lang", "Picture",
+         "Answers", "Passwords don't match", "Wrong E-mail or password",
+         "There is already a user with this email", "Allowed file formats: png, jpeg. Other format files will not be uploaded", "Save",
+         "My latest questions", "My latest replies", "Answer to"]
 }
