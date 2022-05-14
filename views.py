@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, request, flash
 
+from base64 import b64encode
+
 import json
 
 from data import db_session
@@ -14,6 +16,7 @@ from signin_form import LoginForm
 from signup_form import RegisterForm
 from topic_form import TopicsForm
 from comments_form import CommentsForm
+from edit_form import EditForm
 
 import datetime
 
@@ -66,13 +69,13 @@ def register(lang=global_lang_of_site):
             return render_template('sign_up.html', 
                                    title=list_lang_site[lang][4],
                                    form=form,
-                                   message="Пароли не совпадают",
+                                   message=list_lang_site[lang][28],
                                    list_lang_site=list_lang_site, lang_now=lang, lang_btn=True)
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('sign_up.html', title=list_lang_site[lang][4],
                                    form=form,
-                                   message="Пользователь с такой почтой уже есть",
+                                   message=list_lang_site[lang][30],
                                    list_lang_site=list_lang_site, lang_now=lang, lang_btn=True)
         user = User(
             name=form.name.data,
@@ -97,10 +100,10 @@ def login(lang=global_lang_of_site):
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(f"/homeforum/profile/{user.email}")
+            return redirect(f"/homeforum/")
         return render_template('sign_in.html', 
                                title=list_lang_site[lang][3], 
-                               message="Неправильный логин или пароль", form=form,
+                               message=list_lang_site[lang][29], form=form,
                                list_lang_site=list_lang_site, lang_now=lang, lang_btn=True)
     return render_template('sign_in.html', title=list_lang_site[lang][3], form=form, flag=FLAG,
                            list_lang_site=list_lang_site, lang_now=lang, lang_btn=True)
@@ -115,7 +118,24 @@ def logout():
 def addquestion(lang=global_lang_of_site):
     global_lang_of_site = lang
     form = TopicsForm()
+
+    files = request.files.getlist('file[]')
+
     if form.validate_on_submit():
+        for file in files:
+            if file:
+                mimetype = file.content_type
+                if mimetype in ['image/jpeg', 'image/png']:
+                    max_top_id = db_session.create_session().execute("SELECT MAX(id) FROM topics").fetchone()[0]
+                    top_id = 1
+                    if max_top_id:
+                        top_id += 1
+                    image = Photos(photos_url=file.read(), topics_id=top_id)
+                    db_sess = db_session.create_session()
+                    db_sess.add(image)
+                    db_sess.commit()
+                else:
+                    flash(list_lang_site[lang][31])
         add_all_info(my_db=Topics(), header=form.header.data, content=form.content.data, user_id=current_user.get_id())
         return redirect('/homeforum/')
     return render_template('question.html', title=list_lang_site[lang][0], form=form, flag=FLAG,
@@ -125,11 +145,15 @@ def addquestion(lang=global_lang_of_site):
 @login_required
 def sometopic(id_topic, name_topic, lang=global_lang_of_site):
     global_lang_of_site = lang
+    form = CommentsForm()
     db_sess = db_session.create_session()
+
     topic = db_sess.query(Topics).filter(Topics.id == id_topic).first()
     user = work_with_date_users(db_sess.query(User).all())
-    comments_to_topic = db_sess.query(Comments).filter(Comments.topics_id == topic.id).all()
-    form = CommentsForm()
+    comments_to_topic = db_sess.query(Comments).filter(Comments.topics_id == id_topic).all()
+
+    images = db_sess.query(Photos).filter(Photos.topics_id == id_topic).all()
+    attach_files = []
 
     if form.validate_on_submit():
         if form.answer.data:
@@ -144,18 +168,26 @@ def sometopic(id_topic, name_topic, lang=global_lang_of_site):
 
             return redirect('/homeforum/' + lang + '/' + str(id_topic) + '/' + name_topic)
 
+    if images:
+        for image in images:
+            img = b64encode(image.photos_url).decode("utf-8")
+            attach_files.append(img)
+        return render_template('topic.html', topics=topic, user=user, flag=FLAG, 
+                           list_lang_site=list_lang_site, lang_now=lang, form=form,
+                           comments_to_topic=comments_to_topic, lang_btn=False, attach_files=attach_files)
+
     return render_template('topic.html', topics=topic, user=user, flag=FLAG, 
                            list_lang_site=list_lang_site, lang_now=lang, form=form,
-                           comments_to_topic=comments_to_topic, lang_btn=False)
+                           comments_to_topic=comments_to_topic, lang_btn=False, attach_files=attach_files)
 
 
 @login_required
-def profil(username, lang=global_lang_of_site):
+def profil(username_id, lang=global_lang_of_site):
     global_lang_of_site = lang
     db_sess = db_session.create_session()
-    user = db_sess.query(User).filter(User.email == username).first()
-    questions_of_user = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.user_id == user.id).all()
-    answers_of_user = db_sess.query(Comments).order_by(desc(Comments.created_at)).filter(Comments.user_id == user.id).all()
+    user = db_sess.query(User).filter(User.id == username_id).first()
+    questions_of_user = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.user_id == username_id).all()[:2]
+    answers_of_user = db_sess.query(Comments).order_by(desc(Comments.created_at)).filter(Comments.user_id == username_id).all()[:2]
     users_answer_with_keys = work_with_date_topics(db_sess.query(Topics).all())
     return render_template('user_page.html', person=user, flag=FLAG, 
                            list_lang_site=list_lang_site, lang_now=lang, lang_btn=True, 
@@ -163,6 +195,21 @@ def profil(username, lang=global_lang_of_site):
 
 
 @login_required
-def profil_edit(username, lang=global_lang_of_site):
+def profile_edit(username_id, lang=global_lang_of_site):
     global_lang_of_site = lang
-    pass
+    form = EditForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == username_id).first()
+        if form.name.data:
+            user.name = form.name.data
+        if form.surname.data:
+            user.surname = form.surname.data
+        if form.pat.data:
+            user.patronymic = form.pat.data
+        if form.about.data:
+            user.about = form.about.data
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/homeforum/' + lang + '/profile/' + username_id)
+    return render_template('profile_edit.html', list_lang_site=list_lang_site, lang_now=lang, form=form)

@@ -10,7 +10,7 @@
 
 {% block content %}
 <div class="fullwidth">
-  <form class="container" action="" method="post">
+  <form class="container" action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>{{ list_lang_site[lang_now][0] }}</p>
     {{form.header(class="input askInput", type="text", placeholder=list_lang_site[lang_now][15])}}
@@ -28,6 +28,9 @@
       {{ error }}
     </p>
     {% endfor %}
+
+    <p><input type="file" name="file[]" multiple></p>
+
     {{ form.submit(type="submit", class="btn", value=list_lang_site[lang_now][0]) }}
   </form>
 </div>

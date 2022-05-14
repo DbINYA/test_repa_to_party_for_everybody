@@ -23,7 +23,7 @@
           <li><a class="nav__link" href="{{ url_for('register', lang=lang_now) }}">{{ list_lang_site[lang_now][4] }}</a></li>
           {% else %}
           <li><a class="nav__link" href="{{ url_for('addquestion', lang=lang_now) }}">{{ list_lang_site[lang_now][0] }}</a></li>
-          <li><a class="nav__link" href="{{ url_for('profil', username=current_user.email, lang=lang_now) }}">{{ list_lang_site[lang_now][1] }}</a></li>
+          <li><a class="nav__link" href="{{ url_for('profil', username_id=current_user.id, lang=lang_now) }}">{{ list_lang_site[lang_now][1] }}</a></li>
           <li><a class="nav__link" href="/homeforum/signout">{{ list_lang_site[lang_now][2] }}</a></li>
           {% endif %}
         </ul>
