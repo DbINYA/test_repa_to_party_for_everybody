@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="fullwidth">
+    <div class="profile__container">
+
+        <img src="{{ url_for('static', filename='imgs/ava.jpg') }}" class="profile__avatar" alt="">
+
+        <form class="profile__main__form" method="post" enctype="multipart/form-data">
+            <h2>Редактирование профиля</h2>
+
+            <b>{{message}}</b>
+            {{ form.hidden_tag() }}
+            {{ form.name(class="input profileInput", type="text", placeholder=list_lang_site[lang_now][10]) }}
+            {% for error in form.name.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+            {% endfor %}
+            {{ form.surname(class="input profileInput", type="text", placeholder=list_lang_site[lang_now][11]) }}
+            {% for error in form.surname.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+            {% endfor %}
+            {{ form.pat(class="input profileInput", type="text", placeholder=list_lang_site[lang_now][12]) }}
+            {% for error in form.pat.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+            {% endfor %}
+            <label class="flex-col profile__label">
+                {{ list_lang_site[lang_now][21] }}
+                {{ form.about(style="resize: none;", class="input profileInput", cols="30", rows="10") }}
+                {% for error in form.pat.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+                {% endfor %}
+            </label>
+
+            <label class="flex-col" for="">
+                Аватар
+                <input type="file" name="file[]" multiple>
+            </label>
+
+            {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][32]) }}
+        </form>
+
+    </div>
+</div>
+{% endblock %}

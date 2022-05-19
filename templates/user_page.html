@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="fullwidth">
+	<div class="profile__container">
+
+		{% if person.ava_photo %}
+		{% else %}
+		<img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="profile__avatar" alt="">
+		{% endif %}
+
+		<div class="profile__main">
+
+			<div class="profile__user">
+				<div style="display: flex; align-items: center; gap: 1em;">
+					<h1>{{person.name}} {{person.surname}} {{person.patronymic}}</h1> 
+					{% if person.id == current_user.id %}
+					<a href="{{ url_for('profile_edit', username_id=current_user.id, lang=lang_now)}}"><img class="editImg" title="Редактировать" src="{{url_for('static', filename='imgs/edit.png')}}" alt="edit"></a>
+					{% endif %}
+				</div>
+				<p>{{list_lang_site[lang_now][list_lang_site['RU'].index(person.role)]}}</p>
+			</div>
+
+			{% if person.about %}
+			<div class="profile__about">
+				<h3>{{list_lang_site[lang_now][21]}}</h3>
+				<p>{{person.about}}</p>
+			</div>
+			{% endif %}
+			{% if questions_of_user %}
+			<div class="profile__last">
+				<div class="profile__last__questions">
+					<h3>{{ list_lang_site[lang_now][33] }}</h3>
+					<div class="profile__last__wrap">
+
+						{% for item_que in questions_of_user %}
+						<article class="last__wrap__article">
+							<h3><a href="{{ url_for('sometopic', id_topic=item_que.id, name_topic=item_que.header, lang=lang_now) }}">{{ item_que.header }}</a></h3>
+							<p>{{ item_que.content }}</p>
+
+							<span class="last__wrap__article__meta">{{ list_lang_site[lang_now][22] }} {{item_que.created_at.strftime('%d.%m.%Y')}}</span>
+						</article>
+						{% endfor %}
+					</div>
+				</div>
+				{% endif %}
+
+				{% if answers_of_user %}
+				<div class="profile__last__answers">
+					<h3>{{ list_lang_site[lang_now][34] }}</h3>
+					<div class="profile__last__wrap">
+
+						{% for item_ans in answers_of_user %}
+
+						<article class="last__wrap__article">
+							<h3>{{ list_lang_site[lang_now][35] }}<b><a href="{{ url_for('sometopic', id_topic=item_ans.topics_id, name_topic=users_answer_with_keys[item_ans.topics_id][0], lang=lang_now) }}">{{users_answer_with_keys[item_ans.topics_id][0] }}</a></b></h3>
+							<p>{{ item_ans.content }}</p>
+
+							<span class="last__wrap__article__meta">{{ list_lang_site[lang_now][22] }} {{item_ans.created_at.strftime('%d.%m.%Y')}}</span>
+						</article>
+
+						{% endfor %}
+
+					</div>
+				</div>
+				{% endif %}
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+{% endblock %}

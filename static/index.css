@@ -1,0 +1,96 @@
+.topics {
+  margin: 120px auto;
+  width: 80%;
+}
+.topic {
+  height: 160px;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+.topic .user_logo {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}
+.topic .topic_info_text {
+  height: 60%;
+  width: 98%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.topic .topic_info_text .topic_header {
+  font-weight: bold;
+  font-size: 1.3em;
+  transition: .2s;
+  color: black;
+}
+.topic .topic_info_text .topic_header:hover {
+  cursor: pointer;
+  transition: .2s;
+  color: gray;
+}
+.topic .topic_info_text .topic_text {
+  font-size: 1.1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-height: 1em;        /* fallback */
+  max-height: 2em;       /* fallback */
+}
+
+.topic .topic_info_user {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.topic .topic_info_user span {
+  margin-right: 2%;
+  margin-left: 1%;
+}
+.topic .topic_info_user a {
+  margin-left: .5%;
+}
+.topic .topic_info_user .user_link {
+  color: #0090ff;
+  text-decoration: none;
+}
+.topic .topic_info_user .date {
+  color: gray;
+}
+.paginate_block {
+  display: inline-flex;
+  gap: 10px;
+}
+.paginate_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid #FED6BC;
+  height: 40px;
+  width: 40px;
+  transition: .4s;
+  color: #FED6BC;
+}
+.paginate_btn:hover {
+  transition: .4s;
+  color: white;
+  background: #FED6BC;
+  box-shadow: 0 0 0 3px rgba(254, 214, 188, 0.6), 0 0 0 6px rgba(254, 214, 188, 0.3);
+}
+a {
+  text-decoration: none;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}{% endblock %}</title>
+
+  {% block links %}{% endblock %}
+</head>
+
+<body>
+  <header>
+    <a href="{{ url_for('home', lang=lang_now) }}" class="header__title"> <h1>World With You</h1> </a>
+    <div style="display: flex; align-items: center; gap: 3em;">
+    <nav class="header__nav">
+      <ul class="header__nav__ul">
+        {% if not current_user.is_authenticated %}
+        <li><a class="nav__link" href="{{ url_for('login', lang=lang_now) }}">{{ list_lang_site[lang_now][3] }}</a></li>
+        <li><a class="nav__link" href="{{ url_for('register', lang=lang_now) }}">{{ list_lang_site[lang_now][4] }}</a></li>
+        {% else %}
+        <li><a class="nav__link" href="{{ url_for('addquestion', lang=lang_now) }}">{{ list_lang_site[lang_now][0] }}</a></li>
+        <li><a class="nav__link" href="{{ url_for('profil', username=current_user.email, lang=lang_now) }}">{{ list_lang_site[lang_now][1] }}</a></li>
+        <li><a class="nav__link" href="/homeforum/signout">{{ list_lang_site[lang_now][2] }}</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    {% if lang_btn %}
+    {% if lang_now == 'EU' %}
+      <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
+        <option value="{{ url_for('home', lang='EU') }}" >Eng</option>
+        <option value="{{ url_for('home', lang='RU') }}" >Rus</option>
+      </select>
+    {% else %}
+    <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
+        <option value="{{ url_for('home', lang='RU') }}" >Rus</option>
+        <option value="{{ url_for('home', lang='EU') }}" >Eng</option>
+      </select>
+    {% endif %}
+    {% endif %}
+    </div>
+
+    
+    {% if current_user.is_authenticated %}
+    {% if flag %}
+    <form class="search__form" action="" method="post">
+      {{ form_search.hidden_tag() }}
+      {{ form_search.search(class="search__form__input", type="text", placeholder=list_lang_site[lang_now][13]) }}
+      {{ form_search.submit(class="search__form__submit", type="submit", value=list_lang_site[lang_now][14]) }}
+    </form>
+    {% endif %}
+    {% endif %}
+  </header>
+</body>
+</html>
