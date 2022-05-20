@@ -32,6 +32,10 @@ with open('lang_localization.json', 'r', encoding='utf-8') as jsonf:
     list_lang_site = json.load(jsonf)
 
 
+def decode_img(img):
+    return b64encode(img).decode("utf-8")
+
+
 def home(lang=global_lang_of_site, page=0):
     global_lang_of_site = lang
     form = SearchForm()
@@ -200,9 +204,12 @@ def profil(username_id, lang=global_lang_of_site):
 def profile_edit(username_id, lang=global_lang_of_site):
     global_lang_of_site = lang
     form = EditForm()
+
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == username_id).first()
+
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.id == username_id).first()
+
         if form.name.data:
             user.name = form.name.data
         if form.surname.data:
@@ -211,7 +218,18 @@ def profile_edit(username_id, lang=global_lang_of_site):
             user.patronymic = form.pat.data
         if form.about.data:
             user.about = form.about.data
+
+        file = request.files['file']
+        if file:
+            mimetype = file.content_type
+            if mimetype in ['image/jpeg', 'image/png']:
+                user.ava_photo = file.read()
+            else:
+                return render_template('profile_edit.html', person=user, list_lang_site=list_lang_site, lang_now=lang,
+                                       form=form, wrong_files=True)
+
         db_sess.add(user)
         db_sess.commit()
         return redirect('/homeforum/' + lang + '/profile/' + username_id)
-    return render_template('profile_edit.html', list_lang_site=list_lang_site, lang_now=lang, form=form)
+    return render_template('profile_edit.html', person=user, list_lang_site=list_lang_site, lang_now=lang, form=form,
+                           wrong_files=False)

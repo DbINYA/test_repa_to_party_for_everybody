@@ -8,57 +8,71 @@
 
 {% block content %}
 <div class="fullwidth">
-  <div class="container answer__container">
+    <div class="container answer__container">
 
-    <div class="ask__title">
-      <h1>{{topics.header}}</h1>
-      <div class="ask__author">
-        <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
-        <a href="{{ url_for('profil', username_id=topics.user_id) }}" class="ask__author__fio">{{ ' '.join(user[topics.user_id][:3]) }}</a>
-        <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + topics.created_at.strftime(' %d.%m.%Y')}}</span>
-      </div>
-    </div>
+        <div class="ask__title">
+            <h1>{{topics.header}}</h1>
+            <div class="ask__author">
 
-    <p class="ask__text">{{ topics.content }}</p>
+                {% if user.ava_photo %}
+                <img src="data:;base64,{{ decode_img(user.ava_photo) }}"/>
+                {% else %}
+                <img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="profile__avatar" alt="">
+                {% endif %}
 
-    {% if attach_files != [] %}
-        {% for img in attach_files %}
-            <img src="data:;base64,{{ img }}"/>
-        {% endfor %}
-    {% endif %}
-
-    <div class="hr"></div>
-
-    {% if comments_to_topic %}
-    <h2>{{ list_lang_site[lang_now][27] }}:</h2>
-    <div class="answers">
-
-      {% for item_comment in comments_to_topic %}
-      <div class="answer">
-        <div class="ask__author">
-          <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
-          <a href="{{ url_for('profil', username_id=item_comment.user_id) }}" class="ask__author__fio">{{ ' '.join(user[item_comment.user_id][:3]) }}</a>
-          <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + item_comment.created_at.strftime(' %d.%m.%Y')}}</span>
+                <a href="{{ url_for('profil', username_id=topics.user_id) }}" class="ask__author__fio">{{ '
+                    '.join(user[topics.user_id][:3]) }}</a>
+                <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + topics.created_at.strftime(' %d.%m.%Y')}}</span>
+            </div>
         </div>
-        <p>{{ item_comment.content }}</p>
-      </div>
-      {% endfor %}
+
+        <p class="ask__text">{{ topics.content }}</p>
+
+        {% if attach_files != [] %}
+        {% for img in attach_files %}
+        <img src="data:;base64,{{ img }}"/>
+        {% endfor %}
+        {% endif %}
+
+        <div class="hr"></div>
+
+        {% if comments_to_topic %}
+        <h2>{{ list_lang_site[lang_now][27] }}:</h2>
+        <div class="answers">
+
+            {% for item_comment in comments_to_topic %}
+            <div class="answer">
+                <div class="ask__author">
+
+                    {% if not user.ava_photo %}
+                    <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
+                    {% else %}
+                    <img src="data:;base64,{{ user.ava_photo }}"/>
+                    {% endif %}
+
+                    <a href="{{ url_for('profil', username_id=item_comment.user_id) }}" class="ask__author__fio">{{ '
+                        '.join(user[item_comment.user_id][:3]) }}</a>
+                    <span class="ask__author__meta">{{ list_lang_site[lang_now][22] + item_comment.created_at.strftime(' %d.%m.%Y')}}</span>
+                </div>
+                <p>{{ item_comment.content }}</p>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endif %}
+
+        <form class="answer__form" action="" method="post">
+            <h2>{{ list_lang_site[lang_now][23] }}</h2>
+            {{ form.hidden_tag() }}
+            {{ form.answer(class="input answer_textarea", cols="30", rows="10") }}
+            {% for error in form.answer.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][24]) }}
+        </form>
 
     </div>
-    {% endif %}
-
-    <form class="answer__form" action="" method="post">
-      <h2>{{ list_lang_site[lang_now][23] }}</h2>
-      {{ form.hidden_tag() }}
-      {{ form.answer(class="input answer_textarea", cols="30", rows="10") }}
-      {% for error in form.answer.errors %}
-      <div class="alert alert-danger" role="alert">
-        {{ error }}
-      </div>
-      {% endfor %}
-      {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][24]) }}
-    </form>
-
-  </div>
 </div>
 {% endblock %}
