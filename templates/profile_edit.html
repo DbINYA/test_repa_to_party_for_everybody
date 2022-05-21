@@ -22,9 +22,9 @@
     <div class="profile__container">
 
         {% if person.ava_photo %}
-        <img src="data:;base64,{{ decode_img(person.ava_photo) }}" class="profile__avatar"/>
+        <img src="data:;base64,{{ decode_img(person.ava_photo) }}" class="user_page__avatar"/>
         {% else %}
-        <img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="profile__avatar" alt="">
+        <img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="user_page__avatar" alt="">
         {% endif %}
 
         <form class="profile__main__form" method="post" enctype="multipart/form-data">
