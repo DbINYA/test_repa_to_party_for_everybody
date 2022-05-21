@@ -1,11 +1,13 @@
 from views import *
 from flask import Flask
+from flask_avatars import Avatars
 from flask_login import LoginManager
 from data.topics import Topics
 
 seck = open('SECRET_KEY.txt', 'r').read()
 
 app = Flask(__name__)
+avatars = Avatars(app)
 app.config['SECRET_KEY'] = seck
 app.config['DEBUG'] = True
 
@@ -20,6 +22,7 @@ def load_user(user_id):
 
 
 app.jinja_env.globals.update(decode_img=decode_img)
+app.jinja_env.globals.update(get_user=get_user)
 
 app.add_url_rule('/homeforum/<string:lang>/', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<string:lang>/<int:page>', view_func=home, methods=['GET', 'POST'])

@@ -22,7 +22,7 @@
     <div class="profile__container">
 
         {% if person.ava_photo %}
-        <img src="data:;base64,{{ decode_img(person.ava_photo) }}"/>
+        <img src="data:;base64,{{ decode_img(person.ava_photo) }}" class="profile__avatar"/>
         {% else %}
         <img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="profile__avatar" alt="">
         {% endif %}

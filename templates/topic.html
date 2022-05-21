@@ -14,8 +14,8 @@
             <h1>{{topics.header}}</h1>
             <div class="ask__author">
 
-                {% if user.ava_photo %}
-                <img src="data:;base64,{{ decode_img(user.ava_photo) }}"/>
+                {% if get_user(topics.user_id).ava_photo %}
+                <img src="data:;base64,{{ decode_img(get_user(topics.user_id).ava_photo) }}" class="profile__avatar"/>
                 {% else %}
                 <img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="profile__avatar" alt="">
                 {% endif %}
@@ -41,13 +41,15 @@
         <div class="answers">
 
             {% for item_comment in comments_to_topic %}
+
             <div class="answer">
                 <div class="ask__author">
 
-                    {% if not user.ava_photo %}
-                    <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
+                    {% if get_user(item_comment.user_id).ava_photo %}
+                    <img src="data:;base64,{{ decode_img(get_user(item_comment.user_id).ava_photo) }}"
+                         class="profile__avatar"/>
                     {% else %}
-                    <img src="data:;base64,{{ user.ava_photo }}"/>
+                    <img src="{{ url_for('static', filename='imgs/ava.jpg')}}" class="ask__author__img" alt="">
                     {% endif %}
 
                     <a href="{{ url_for('profil', username_id=item_comment.user_id) }}" class="ask__author__fio">{{ '

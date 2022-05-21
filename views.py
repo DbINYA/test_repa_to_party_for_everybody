@@ -36,6 +36,10 @@ def decode_img(img):
     return b64encode(img).decode("utf-8")
 
 
+def get_user(id):
+    return db_session.create_session().query(User).filter(User.id == id).first()
+
+
 def home(lang=global_lang_of_site, page=0):
     global_lang_of_site = lang
     form = SearchForm()
