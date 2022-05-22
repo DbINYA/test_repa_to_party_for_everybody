@@ -29,6 +29,18 @@
 
     <div class="hr"></div>
 
+    <form class="answer__form" action="" method="post">
+      <h2>{{ list_lang_site[lang_now][23] }}</h2>
+      {{ form.hidden_tag() }}
+      {{ form.answer(class="input answer_textarea", cols="30", rows="10") }}
+      {% for error in form.answer.errors %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][24]) }}
+    </form>
+
     {% if comments_to_topic %}
     <h2>{{ list_lang_site[lang_now][27] }}:</h2>
     <div class="answers">
@@ -46,19 +58,6 @@
 
     </div>
     {% endif %}
-
-    <form class="answer__form" action="" method="post">
-      <h2>{{ list_lang_site[lang_now][23] }}</h2>
-      {{ form.hidden_tag() }}
-      {{ form.answer(class="input answer_textarea", cols="30", rows="10") }}
-      {% for error in form.answer.errors %}
-      <div class="alert alert-danger" role="alert">
-        {{ error }}
-      </div>
-      {% endfor %}
-      {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][24]) }}
-    </form>
-
   </div>
 </div>
 {% endblock %}

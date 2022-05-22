@@ -2,14 +2,29 @@
 
 {% block links %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
 {% endblock %}
 
+
 {% block content %}
+<div class="error-container">
+    {% if wrong_files %}
+    <div class="alert alert-danger">
+        <strong>Ошибка</strong> Допустимые форматы файлов: png, jpeg.
+    </div>
+    {% endif %}
+
+</div>
+
 <div class="fullwidth">
     <div class="profile__container">
 
-        <img src="{{ url_for('static', filename='imgs/ava.jpg') }}" class="profile__avatar" alt="">
-
+        {% if person.ava_photo %}
+        <img src="data:;base64,{{ decode_img(person.ava_photo) }}" class="user_page__avatar"/>
+        {% else %}
+        <img src="{{url_for('static', filename='imgs/ava.jpg')}}" class="user_page__avatar" alt="">
+        {% endif %}
+        
         <form class="profile__main__form" method="post" enctype="multipart/form-data">
             <h2>Редактирование профиля</h2>
 
@@ -45,7 +60,7 @@
 
             <label class="flex-col" for="">
                 Аватар
-                <input type="file" name="file[]" multiple>
+                <input type="file" name="file" multiple>
             </label>
 
             {{ form.submit(class="btn", type="submit", value=list_lang_site[lang_now][32]) }}

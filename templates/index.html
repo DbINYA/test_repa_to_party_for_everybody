@@ -6,68 +6,78 @@
 {% endblock %}
 
 
+
 {% block content %}
 {% if not current_user.is_authenticated %}
 <meta http-equiv="refresh" content="0; URL='{{ url_for('register', lang=lang_now) }}'">
 {% endif %}
 {% if current_user.is_authenticated %}
 <div class="questions">
-  {% for item_topics in topics %}
-  <div class="question">
-    <h3 class="question__title"><a href="{{ url_for('sometopic', id_topic=item_topics.id, name_topic=item_topics.header, lang=lang_now) }}">{{ item_topics.header }}</a></h3>
-    <p class="question__about">{{ item_topics.content }}</p>
-    <div class="meta">
-      <div class="meta__user">
-        {% if user[item_topics.user_id][3] %}
-        {% else %}
-        <img class="meta__user__ava" src="{{ url_for('static', filename='imgs/ava.jpg') }}" alt="">
-        {% endif %}
-        <a class="meta__user__username" href="{{ url_for('profil', username_id=item_topics.user_id, lang=lang_now) }}">{{ ' '.join(user[item_topics.user_id][:3]) }}</a>
-      </div>
-      <p>{{ list_lang_site[lang_now][22] }} <span>{{item_topics.created_at.strftime('%d.%m.%Y')}}</span></p>
+    {% for item_topics in topics %}
+    <div class="question">
+        <h3 class="question__title"><a
+                href="{{ url_for('sometopic', id_topic=item_topics.id, name_topic=item_topics.header, lang=lang_now) }}">{{
+            item_topics.header }}</a></h3>
+        <p class="question__about">{{ item_topics.content }}</p>
+        <div class="meta">
+            <div class="meta__user">
+
+
+                {% if get_user(item_topics.user_id).ava_photo %}
+                <img src="data:;base64,{{ decode_img(get_user(item_topics.user_id).ava_photo) }}"
+                     class="mini__avatar"/>
+                {% else %}
+                <img class="mini__avatar" src="{{ url_for('static', filename='imgs/ava.jpg') }}" alt="">
+                {% endif %}
+
+                <a class="meta__user__username"
+                   href="{{ url_for('profil', username_id=item_topics.user_id, lang=lang_now) }}">{{ '
+                    '.join(user[item_topics.user_id][:3]) }}</a>
+            </div>
+            <p>{{ list_lang_site[lang_now][22] }} <span>{{item_topics.created_at.strftime('%d.%m.%Y')}}</span></p>
+        </div>
     </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
 </div>
 {% if page_float %}
 {% if nums_page %}
 <div class="percent">
-  <div class="per80">
-    <div class="pagination">
-      {% if activate_page != 0 %}
-      <a href="{{ activate_page - 1}}" class="pagination__btn btn__left">&lt;</a>
-      {% else %}
-      <a href="{{ nums_page - 1}}" class="pagination__btn btn__left">&lt;</a>
-      {% endif %}
-      <div class="pagination__pagesList">
-        {% for i in range(nums_page) %}
-        {% if i < 5 %}
-          {% if activate_page == i %}
-          <a href="{{i}}" class="pagination__number noncursor btn__active">{{i + 1}}</a>
-          {% else %}
-          <a href="{{i}}" class="pagination__number">{{i + 1}}</a>
-          {% endif %}
-        {% endif %}
-        {% if nums_page >= 7 %}
-          {% if i == 5 %}
-            <a href="#" class="pagination__number noncursor">...</a>
-          {% elif i == nums_page - 1 %}
-            {% if activate_page == i %}
-            <a href="{{nums_page - 1}}" class="pagination__number noncursor btn__active">{{nums_page}}</a>
+    <div class="per80">
+        <div class="pagination">
+            {% if activate_page != 0 %}
+            <a href="{{ activate_page - 1}}" class="pagination__btn btn__left">&lt;</a>
             {% else %}
-            <a href="{{nums_page - 1}}" class="pagination__number">{{nums_page}}</a>
+            <a href="{{ nums_page - 1}}" class="pagination__btn btn__left">&lt;</a>
             {% endif %}
-          {% endif %}
-        {% endif %}
-        {% endfor %}
-      </div>
-      {% if activate_page != nums_page - 1 %}
-      <a href="{{ activate_page + 1 }}" class="pagination__btn btn__right">&gt;</a>
-      {% else %}
-      <a href="0" class="pagination__btn btn__right">&gt;</a>
-      {% endif %}
+            <div class="pagination__pagesList">
+                {% for i in range(nums_page) %}
+                {% if i < 5 %}
+                {% if activate_page == i %}
+                <a href="{{i}}" class="pagination__number noncursor btn__active">{{i + 1}}</a>
+                {% else %}
+                <a href="{{i}}" class="pagination__number">{{i + 1}}</a>
+                {% endif %}
+                {% endif %}
+                {% if nums_page >= 7 %}
+                {% if i == 5 %}
+                <a href="#" class="pagination__number noncursor">...</a>
+                {% elif i == nums_page - 1 %}
+                {% if activate_page == i %}
+                <a href="{{nums_page - 1}}" class="pagination__number noncursor btn__active">{{nums_page}}</a>
+                {% else %}
+                <a href="{{nums_page - 1}}" class="pagination__number">{{nums_page}}</a>
+                {% endif %}
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% if activate_page != nums_page - 1 %}
+            <a href="{{ activate_page + 1 }}" class="pagination__btn btn__right">&gt;</a>
+            {% else %}
+            <a href="0" class="pagination__btn btn__right">&gt;</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </div>
 {% endif %}
 {% endif %}
