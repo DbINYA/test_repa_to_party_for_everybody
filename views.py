@@ -40,32 +40,38 @@ def get_user(id):
     return db_session.create_session().query(User).filter(User.id == id).first()
 
 
-def home(lang=global_lang_of_site, page=0):
+def home(lang=global_lang_of_site, page=1):
     global_lang_of_site = lang
     form = SearchForm()
 
-    mini_page_float = True 
-
     db_sess = db_session.create_session()
     tops = db_sess.query(Topics).order_by(desc(Topics.created_at))
-    n = len(tops.all())
-    nums_of_page = n // 10
-    if n % 10:
-        nums_of_page += 1
-    topics = tops.limit(10).offset(10 * page)
-    user = work_with_date_users(db_sess.query(User).all())
-
 
     if form.validate_on_submit():
         if form.search.data:
-            mini_page_float = False 
-            topics = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.header.like('%' + form.search.data + '%')).all()
-            user = work_with_date_users(db_sess.query(User).all())
+            tops = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.header.like('%' + form.search.data + '%'))
+
+    nums_of_page = len(tops.all()) // 10
+    if len(tops.all()) % 10 != 0:
+        nums_of_page += 1
+    number_of_fifth = page // 5
+    if page % 5 != 0:
+        number_of_fifth += 1
+    if nums_of_page <= number_of_fifth * 5:
+        starts_page = (number_of_fifth - 1) * 5 + 1
+        ends_page = nums_of_page + 1
+    else:
+        starts_page = (number_of_fifth - 1) * 5 + 1
+        ends_page = starts_page + 5
+    print(len(tops.all()), nums_of_page, starts_page, ends_page)
+
+    topics = tops.limit(10).offset(10 * (page - 1))
+    user = work_with_date_users(db_sess.query(User).all())
 
     return render_template('index.html', topics=topics, user=user, 
-                           form_search=form, flag=True, page_float=mini_page_float, 
-                           nums_page=nums_of_page, activate_page=page, list_lang_site=list_lang_site, 
-                           lang_now=lang, lang_btn=False)
+                           form_search=form, flag=True, nums_page=nums_of_page, 
+                           activated_page=page, list_lang_site=list_lang_site, starts_page=starts_page,
+                           ends_page=ends_page, lang_now=lang, lang_btn=False)
 
 
 def register(lang=global_lang_of_site):
@@ -106,8 +112,10 @@ def login(lang=global_lang_of_site):
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect(f"/homeforum/")
+            login_user(user)
+            if user.role == 'Администратор':
+                return redirect("/homeforum/admin/")  # 3e7mmL-tfXeTCVwCcc2ryQ9r4LWzVyZw09yeKLLVLA
+            return redirect("/homeforum/")
         return render_template('sign_in.html', 
                                title=list_lang_site[lang][3], 
                                message=list_lang_site[lang][29], form=form,
@@ -234,3 +242,8 @@ def profile_edit(username_id, lang=global_lang_of_site):
         return redirect('/homeforum/' + lang + '/profile/' + username_id)
     return render_template('profile_edit.html', person=user, list_lang_site=list_lang_site, lang_now=lang, form=form,
                            wrong_files=False)
+
+
+
+def admin(lang=global_lang_of_site):
+    return render_template('admin.html')

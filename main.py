@@ -35,17 +35,19 @@ app.add_url_rule('/homeforum/<string:lang>/addquestion', view_func=addquestion, 
 app.add_url_rule('/homeforum/<string:lang>/<int:id_topic>/<string:name_topic>', view_func=sometopic, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<string:lang>/profile/<string:username_id>', view_func=profil)
 app.add_url_rule('/homeforum/<string:lang>/edit/<string:username_id>', view_func=profile_edit, methods=['GET', 'POST'])
+app.add_url_rule('/homeforum/admin/', view_func=admin, methods=['GET', 'POST'])
 
 app.add_url_rule('/homeforum/', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<int:page>', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/addquestion', view_func=addquestion, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<int:id_topic>/<string:name_topic>', view_func=sometopic, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/profile/<string:username_id>', view_func=profil)
+app.add_url_rule('/homeforum/admin/<string:lang>', view_func=admin, methods=['GET', 'POST'])
 
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.run('127.0.0.1', '8000')
+    app.run('127.0.0.1', '7000')
 
 
 if __name__ == '__main__':
