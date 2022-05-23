@@ -1,8 +1,0 @@
-Flask==2.0.1
-Flask-Login==0.6.0
-Flask-Avatars==0.2.2
-Flask-MySQL==1.5.2
-Flask-WTF==1.0.0
-SQLAlchemy==1.4.31
-SQLAlchemy-serializer==1.4.1
-WTForms==3.0.1
