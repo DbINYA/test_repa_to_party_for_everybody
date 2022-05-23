@@ -32,33 +32,46 @@ global_lang_of_site = 'RU'
 with open('lang_localization.json', 'r', encoding='utf-8') as jsonf:
     list_lang_site = json.load(jsonf)
 
+def decode_img(img):
+    return b64encode(img).decode("utf-8")
 
-def home(lang=global_lang_of_site, page=0):
+
+def get_user(id):
+    return db_session.create_session().query(User).filter(User.id == id).first()
+
+
+def home(lang=global_lang_of_site, page=1):
     global_lang_of_site = lang
     form = SearchForm()
 
-    mini_page_float = True 
-
     db_sess = db_session.create_session()
     tops = db_sess.query(Topics).order_by(desc(Topics.created_at))
-    n = len(tops.all())
-    nums_of_page = n // 10
-    if n % 10:
-        nums_of_page += 1
-    topics = tops.limit(10).offset(10 * page)
-    user = work_with_date_users(db_sess.query(User).all())
-
 
     if form.validate_on_submit():
         if form.search.data:
-            mini_page_float = False 
-            topics = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.header.like('%' + form.search.data + '%')).all()
-            user = work_with_date_users(db_sess.query(User).all())
+            tops = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.header.like('%' + form.search.data + '%'))
+
+    nums_of_page = len(tops.all()) // 10
+    if len(tops.all()) % 10 != 0:
+        nums_of_page += 1
+    number_of_fifth = page // 5
+    if page % 5 != 0:
+        number_of_fifth += 1
+    if nums_of_page <= number_of_fifth * 5:
+        starts_page = (number_of_fifth - 1) * 5 + 1
+        ends_page = nums_of_page + 1
+    else:
+        starts_page = (number_of_fifth - 1) * 5 + 1
+        ends_page = starts_page + 5
+    print(len(tops.all()), nums_of_page, starts_page, ends_page)
+
+    topics = tops.limit(10).offset(10 * (page - 1))
+    user = work_with_date_users(db_sess.query(User).all())
 
     return render_template('index.html', topics=topics, user=user, 
-                           form_search=form, flag=True, page_float=mini_page_float, 
-                           nums_page=nums_of_page, activate_page=page, list_lang_site=list_lang_site, 
-                           lang_now=lang, lang_btn=False)
+                           form_search=form, flag=True, nums_page=nums_of_page, 
+                           activated_page=page, list_lang_site=list_lang_site, starts_page=starts_page,
+                           ends_page=ends_page, lang_now=lang, lang_btn=False)
 
 
 def register(lang=global_lang_of_site):
@@ -99,8 +112,10 @@ def login(lang=global_lang_of_site):
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect(f"/homeforum/")
+            login_user(user)
+            if user.role == 'Администратор':
+                return redirect("/homeforum/admin/")  # 3e7mmL-tfXeTCVwCcc2ryQ9r4LWzVyZw09yeKLLVLA
+            return redirect("/homeforum/")
         return render_template('sign_in.html', 
                                title=list_lang_site[lang][3], 
                                message=list_lang_site[lang][29], form=form,
@@ -126,16 +141,16 @@ def addquestion(lang=global_lang_of_site):
             if file:
                 mimetype = file.content_type
                 if mimetype in ['image/jpeg', 'image/png']:
-                    max_top_id = db_session.create_session().execute("SELECT MAX(id) FROM topics").fetchone()[0]
-                    top_id = 1
-                    if max_top_id:
-                        top_id += 1
+
+                    top_id = db_session.create_session().execute("SELECT MAX(id) FROM topics").fetchone()[0] + 1
                     image = Photos(photos_url=file.read(), topics_id=top_id)
                     db_sess = db_session.create_session()
                     db_sess.add(image)
                     db_sess.commit()
                 else:
-                    flash(list_lang_site[lang][31])
+                    return render_template('question.html', title=list_lang_site[lang][0], form=form, flag=FLAG,
+                                           list_lang_site=list_lang_site, lang_now=lang, lang_btn=False,
+                                           wrong_files=True)
         add_all_info(my_db=Topics(), header=form.header.data, content=form.content.data, user_id=current_user.get_id())
         return redirect('/homeforum/')
     return render_template('question.html', title=list_lang_site[lang][0], form=form, flag=FLAG,
@@ -198,9 +213,12 @@ def profil(username_id, lang=global_lang_of_site):
 def profile_edit(username_id, lang=global_lang_of_site):
     global_lang_of_site = lang
     form = EditForm()
+
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == username_id).first()
+
     if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.id == username_id).first()
+
         if form.name.data:
             user.name = form.name.data
         if form.surname.data:
@@ -209,7 +227,23 @@ def profile_edit(username_id, lang=global_lang_of_site):
             user.patronymic = form.pat.data
         if form.about.data:
             user.about = form.about.data
+
+        file = request.files['file']
+        if file:
+            mimetype = file.content_type
+            if mimetype in ['image/jpeg', 'image/png']:
+                user.ava_photo = file.read()
+            else:
+                return render_template('profile_edit.html', person=user, list_lang_site=list_lang_site, lang_now=lang,
+                                       form=form, wrong_files=True)
+
         db_sess.add(user)
         db_sess.commit()
         return redirect('/homeforum/' + lang + '/profile/' + username_id)
-    return render_template('profile_edit.html', list_lang_site=list_lang_site, lang_now=lang, form=form)
+    return render_template('profile_edit.html', person=user, list_lang_site=list_lang_site, lang_now=lang, form=form,
+                           wrong_files=False)
+
+
+
+def admin(lang=global_lang_of_site):
+    return render_template('admin.html')

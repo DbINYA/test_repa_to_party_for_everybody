@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>World With You</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    
+    <header>
+        <a class="header__title"> <img src="{{ url_for('static', filename='imgs/logo2.png') }}" alt=""> </a>
+
+        <nav class="header__nav">
+            <ul class="header__nav__ul">
+                <li><a class="nav__link" href="#">Изменить роль</a></li>
+                <li><a class="nav__link" href="#">Вопросы</a></li>
+                <li><a class="nav__link" href="#">Пользователи</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main class="adminMain">
+
+
+        <div class="fullwh">
+            <div class="admin">
+                <div class="rightAdmin">
+                    <h2>Фильтры</h2>
+
+                    <div class="filter">
+                        <h3>Роль</h3>
+                        <a href="#" class="filter__btn active__filter">Все</a>
+                        <a href="#" class="filter__btn">Пользователь</a>
+                        <a href="#" class="filter__btn">Родитель-эксперт</a>
+                        <a href="#" class="filter__btn">Эксперт</a>
+                    </div>
+                </div>
+
+                <div class="leftAdmin">
+                    <div class="search__people">
+
+                        <form class="search__people__form" action="">
+                            <input class="search__people__form__input" type="text" placeholder="Введите ФИО">
+                            <input class="search__people__form__submit" type="submit" value="Поиск">
+                        </form>
+
+                    </div>
+                    <div class="people__table">
+                        
+                        <table class="table">
+                            <tr class="table__shapka">
+                                <td><input type="checkbox" name="" id=""></td>
+                                <td>Имя</td>
+                                <td>Фамилия</td>
+                                <td>Отчество</td>
+                                <td>Роль</td>
+                            </tr>
+                            <tr class="table__user">
+                                <td><input type="checkbox"></td>
+                                <td>Алексей</td>
+                                <td>Ефременков</td>
+                                <td>Александрович</td>
+                                <td>Пользователь</td>
+                            </tr>
+                            <tr class="table__user">
+                                <td><input type="checkbox"></td>
+                                <td>Алексей</td>
+                                <td>Ефременков</td>
+                                <td>Александрович</td>
+                                <td>Пользователь</td>
+                            </tr>
+                            <tr class="table__user">
+                                <td><input type="checkbox"></td>
+                                <td>Алексей</td>
+                                <td>Ефременков</td>
+                                <td>Александрович</td>
+                                <td>Пользователь</td>
+                            </tr>
+                            <tr class="table__user">
+                                <td><input type="checkbox"></td>
+                                <td>Алексей</td>
+                                <td>Ефременков</td>
+                                <td>Александрович</td>
+                                <td>Пользователь</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+
+
+            </div>
+        </div>
+
+
+
+    </main>
+
+    <footer>
+
+        <a class="header__title"> <h1>World With You</h1> </a>
+
+        <nav class="header__nav">
+            <ul class="header__nav__ul">
+                <li><a class="nav__link" href="#">Задать вопрос</a></li>
+                <li><a class="nav__link" href="#">Профиль</a></li>
+                <li><a class="nav__link" href="/homeforum/signout">Выйти</a></li>
+            </ul>
+        </nav>
+
+        <div class="footer__icons">
+            <a class="footer__icon" href="https://t.me/dunyo_sen_bilan"><img src="{{ url_for('static', filename='imgs/telegram.png') }}" alt=""></a>
+            <a class="footer__icon" href="https://www.instagram.com/p/CNfnhS6n_-k/?igshid=YmMyMTA2M2Y="><img src="{{ url_for('static', filename='imgs/instagram.png') }}" alt=""></a>
+        </div>
+
+    </footer>
+
+</body>
+</html>

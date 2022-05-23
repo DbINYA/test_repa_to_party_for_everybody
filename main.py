@@ -1,5 +1,6 @@
 from views import *
 from flask import Flask
+from flask_avatars import Avatars
 from flask_login import LoginManager
 from data.topics import Topics
 
@@ -7,6 +8,7 @@ from data.topics import Topics
 seck = open('SECRET_KEY.txt', 'r').read()
 
 app = Flask(__name__)
+avatars = Avatars(app)
 app.config['SECRET_KEY'] = seck
 app.config['DEBUG'] = True
 
@@ -21,6 +23,9 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+app.jinja_env.globals.update(decode_img=decode_img)
+app.jinja_env.globals.update(get_user=get_user)
+
 app.add_url_rule('/homeforum/<string:lang>/', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<string:lang>/<int:page>', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<string:lang>/signup', view_func=register, methods=['GET', 'POST'])
@@ -30,17 +35,19 @@ app.add_url_rule('/homeforum/<string:lang>/addquestion', view_func=addquestion, 
 app.add_url_rule('/homeforum/<string:lang>/<int:id_topic>/<string:name_topic>', view_func=sometopic, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<string:lang>/profile/<string:username_id>', view_func=profil)
 app.add_url_rule('/homeforum/<string:lang>/edit/<string:username_id>', view_func=profile_edit, methods=['GET', 'POST'])
+app.add_url_rule('/homeforum/admin/', view_func=admin, methods=['GET', 'POST'])
 
 app.add_url_rule('/homeforum/', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<int:page>', view_func=home, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/addquestion', view_func=addquestion, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/<int:id_topic>/<string:name_topic>', view_func=sometopic, methods=['GET', 'POST'])
 app.add_url_rule('/homeforum/profile/<string:username_id>', view_func=profil)
+app.add_url_rule('/homeforum/admin/<string:lang>', view_func=admin, methods=['GET', 'POST'])
 
 
 def main():
     db_session.global_init("db/blogs.db")
-    app.run('127.0.0.1', '8000')
+    app.run('127.0.0.1', '7000')
 
 
 if __name__ == '__main__':

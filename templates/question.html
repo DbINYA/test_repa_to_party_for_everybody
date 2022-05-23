@@ -2,6 +2,7 @@
 
 {% block links %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -9,29 +10,38 @@
 {% endblock %}
 
 {% block content %}
+
+
+<div class="error-container">
+    {% if wrong_files %}
+    <div class="alert alert-danger">
+        <strong>Ошибка</strong> Допустимые форматы файлов: png, jpeg.
+    </div>
+    {% endif %}
+
+</div>
+
+
+{% block page_content %}{% endblock %}
+
 <div class="fullwidth">
-  <form class="container" action="" method="post" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-    <p>{{ list_lang_site[lang_now][0] }}</p>
-    {{form.header(class="input askInput", type="text", placeholder=list_lang_site[lang_now][15])}}
-    {% for error in form.header.errors %}
-    <p class="alert alert-danger" role="alert">
-      {{ error }}
-    </p>
-    {% endfor %}
-    <label class="flex-col" for="">
-    {{list_lang_site[lang_now][16]}}
-    {{ form.content(style="resize: none;", class="input askInput", cols="30", rows="10") }}
-    </label>
-    {% for error in form.content.errors %}
-    <p class="alert alert-danger" role="alert">
-      {{ error }}
-    </p>
-    {% endfor %}
+    <form class="container" action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>{{ list_lang_site[lang_now][0] }}</p>
+        {{form.header(class="input askInput", type="text", placeholder=list_lang_site[lang_now][15])}}
+        {% for error in form.header.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
+        {% endfor %}
+        <label class="flex-col">
+            {{list_lang_site[lang_now][16]}}
+            {{ form.content(style="resize: none;", class="input askInput", cols="30", rows="10") }}
+        </label>
 
-    <p><input type="file" name="file[]" multiple></p>
+        <p><input type="file" name="file[]" multiple></p>
 
-    {{ form.submit(type="submit", class="btn", value=list_lang_site[lang_now][0]) }}
-  </form>
+        {{ form.submit(type="submit", class="btn", value=list_lang_site[lang_now][0]) }}
+    </form>
 </div>
 {% endblock %}
