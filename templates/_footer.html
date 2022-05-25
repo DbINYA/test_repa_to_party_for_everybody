@@ -1,0 +1,15 @@
+<footer>
+    <a href="{{ url_for('home', lang=lang_now) }}" class="header__title"> <h1>World With You</h1> </a>
+    <nav class="header__nav">
+      <ul class="header__nav__ul">
+        <li><a class="nav__link" href="{{ url_for('addquestion', lang=lang_now) }}">{{ list_lang_site[lang_now][0] }}</a></li>
+        <li><a class="nav__link" href="#">Видеоуроки</a></li>
+        <li><a class="nav__link" href="{{ url_for('profil', username_id=current_user.id, lang=lang_now) }}">{{ list_lang_site[lang_now][1] }}</a></li>
+        <li><a class="nav__link" href="/homeforum/signout">{{ list_lang_site[lang_now][2] }}</a></li>
+      </ul>
+    </nav>
+    <div class="footer__icons">
+      <a class="footer__icon" href="https://t.me/dunyo_sen_bilan"><img src="{{ url_for('static', filename='imgs/telegram.png') }}" alt=""></a>
+      <a class="footer__icon" href="https://www.instagram.com/p/CNfnhS6n_-k/?igshid=YmMyMTA2M2Y="><img src="{{ url_for('static', filename='imgs/instagram.png') }}" alt=""></a>
+    </div>
+</footer>

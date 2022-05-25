@@ -24,7 +24,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 from add_to_data import *
 
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 
 
 FLAG = False
@@ -40,19 +40,29 @@ def get_user(id):
     return db_session.create_session().query(User).filter(User.id == id).first()
 
 
-def home(lang=global_lang_of_site, page=1):
+def home(lang=global_lang_of_site, page=1, search='None_search_sit%'):
     global_lang_of_site = lang
     form = SearchForm()
 
     db_sess = db_session.create_session()
-    tops = db_sess.query(Topics).order_by(desc(Topics.created_at))
 
     if form.validate_on_submit():
         if form.search.data:
-            tops = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(Topics.header.like('%' + form.search.data + '%'))
+            search = form.search.data 
+        else:
+            search = 'None_search_sit%'
 
-    nums_of_page = len(tops.all()) // 10
-    if len(tops.all()) % 10 != 0:
+    if search != 'None_search_sit%':
+        tops = db_sess.query(Topics).order_by(desc(Topics.created_at)).filter(or_(Topics.header.like('%' + search + '%'), 
+                                                                                  Topics.content.like('%' + search + '%'),
+                                                                                  Topics.header.like('%' + search.lower() + '%'), 
+                                                                                  Topics.content.like('%' + search.lower() + '%'),
+                                                                                  Topics.header.like('%' + search.upper() + '%'), 
+                                                                                  Topics.content.like('%' + search.upper() + '%')))
+    else:
+        tops = db_sess.query(Topics).order_by(desc(Topics.created_at))
+    nums_of_page = len(tops.all()) // 5
+    if len(tops.all()) % 5 != 0:
         nums_of_page += 1
     number_of_fifth = page // 5
     if page % 5 != 0:
@@ -63,15 +73,14 @@ def home(lang=global_lang_of_site, page=1):
     else:
         starts_page = (number_of_fifth - 1) * 5 + 1
         ends_page = starts_page + 5
-    print(len(tops.all()), nums_of_page, starts_page, ends_page)
 
-    topics = tops.limit(10).offset(10 * (page - 1))
+    topics = tops.limit(5).offset(5 * (page - 1))
     user = work_with_date_users(db_sess.query(User).all())
 
     return render_template('index.html', topics=topics, user=user, 
                            form_search=form, flag=True, nums_page=nums_of_page, 
                            activated_page=page, list_lang_site=list_lang_site, starts_page=starts_page,
-                           ends_page=ends_page, lang_now=lang, lang_btn=False)
+                           ends_page=ends_page, lang_now=lang, lang_btn=False, search_now=search)
 
 
 def register(lang=global_lang_of_site):
@@ -247,3 +256,6 @@ def profile_edit(username_id, lang=global_lang_of_site):
 
 def admin(lang=global_lang_of_site):
     return render_template('admin.html')
+
+def somevideo(lang=global_lang_of_site):
+    pass

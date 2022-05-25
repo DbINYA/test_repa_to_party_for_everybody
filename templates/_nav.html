@@ -1,46 +1,37 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>{% block title %}{% endblock %}</title>
-
-  {% block links %}{% endblock %}
-</head>
-
-<body>
-  <header>
+<header>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('home', lang=lang_now) }}" class="header__title"> <img src="{{ url_for('static', filename='imgs/logo2.png') }}" alt=""> </a>
+    {% else %}
     <a href="{{ url_for('home', lang=lang_now) }}" class="header__title"> <h1>World With You</h1> </a>
+    {% endif %}
     <div style="display: flex; align-items: center; gap: 3em;">
-    <nav class="header__nav">
-      <ul class="header__nav__ul">
-        {% if not current_user.is_authenticated %}
-        <li><a class="nav__link" href="{{ url_for('login', lang=lang_now) }}">{{ list_lang_site[lang_now][3] }}</a></li>
-        <li><a class="nav__link" href="{{ url_for('register', lang=lang_now) }}">{{ list_lang_site[lang_now][4] }}</a></li>
-        {% else %}
-        <li><a class="nav__link" href="{{ url_for('addquestion', lang=lang_now) }}">{{ list_lang_site[lang_now][0] }}</a></li>
-        <li><a class="nav__link" href="{{ url_for('profil', username=current_user.email, lang=lang_now) }}">{{ list_lang_site[lang_now][1] }}</a></li>
-        <li><a class="nav__link" href="/homeforum/signout">{{ list_lang_site[lang_now][2] }}</a></li>
-        {% endif %}
-      </ul>
-    </nav>
+      <nav class="header__nav">
+        <ul class="header__nav__ul">
+          {% if not current_user.is_authenticated %}
+          <li><a class="nav__link" href="{{ url_for('login', lang=lang_now) }}">{{ list_lang_site[lang_now][3] }}</a></li>
+          <li><a class="nav__link" href="{{ url_for('register', lang=lang_now) }}">{{ list_lang_site[lang_now][4] }}</a></li>
+          {% else %}
+          <li><a class="nav__link" href="{{ url_for('addquestion', lang=lang_now) }}">{{ list_lang_site[lang_now][0] }}</a></li>
+          <li><a class="nav__link" href="#">Видеоуроки</a></li>
+          <li><a class="nav__link" href="{{ url_for('profil', username_id=current_user.id, lang=lang_now) }}">{{ list_lang_site[lang_now][1] }}</a></li>
+          <li><a class="nav__link" href="/homeforum/signout">{{ list_lang_site[lang_now][2] }}</a></li>
+          {% endif %}
+        </ul>
+      </nav>
 
-    {% if lang_btn %}
-    {% if lang_now == 'EU' %}
+      {% if lang_btn %}
+      {% if lang_now == 'EU' %}
       <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
         <option value="{{ url_for('home', lang='EU') }}" >Eng</option>
         <option value="{{ url_for('home', lang='RU') }}" >Rus</option>
       </select>
-    {% else %}
-    <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
+      {% else %}
+      <select name="" class="btnLang" id="btnLang" onchange="window.location.href = this.options[this.selectedIndex].value">
         <option value="{{ url_for('home', lang='RU') }}" >Rus</option>
         <option value="{{ url_for('home', lang='EU') }}" >Eng</option>
       </select>
-    {% endif %}
-    {% endif %}
+      {% endif %}
+      {% endif %}
     </div>
 
     
@@ -53,6 +44,4 @@
     </form>
     {% endif %}
     {% endif %}
-  </header>
-</body>
-</html>
+</header>
