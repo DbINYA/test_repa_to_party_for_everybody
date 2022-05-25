@@ -44,31 +44,36 @@
     <div class="per80">
         <div class="pagination">
             {% if activated_page - 5 >= 0 %}
-            <a href="{{activated_page - 5}}" class="pagination__btn btn__left">&lt;</a>
+            <a href="{{ url_for('home', lang=lang_now, page=activated_page - 5, search=search_now) }}" class="pagination__btn btn__left">&lt;</a>
             {% else %}
-            <a href="{{0}}" class="pagination__btn btn__left">&lt;</a>
+            <a href="{{ url_for('home', lang=lang_now, page=1, search=search_now) }}" class="pagination__btn btn__left">&lt;</a>
             {% endif %}
             <div class="pagination__pagesList">
                 {% for item_page in range(starts_page, ends_page) %}
                   {% if item_page == activated_page %}
-                  <a href="{{item_page}}" class="pagination__number noncursor btn__active">{{ item_page }}</a>
+                  <a href="{{ url_for('home', lang=lang_now, page=item_page, search=search_now) }}" class="pagination__number noncursor btn__active">{{ item_page }}</a>
                   {% else %}
-                  <a href="{{item_page}}" class="pagination__number">{{ item_page }}</a>
+                  <a href="{{ url_for('home', lang=lang_now, page=item_page, search=search_now) }}" class="pagination__number">{{ item_page }}</a>
                   {% endif %}
                 {% endfor %}
                 {% if ends_page != nums_page + 1 %}
-                <a href="#" class="pagination__number noncursor">...</a>
-                <a href="{{nums_page}}" class="pagination__number">{{nums_page}}</a>
+                <a class="pagination__number noncursor">...</a>
+                <a href="{{ url_for('home', lang=lang_now, page=item_page, search=search_now) }}" class="pagination__number">{{nums_page}}</a>
                 {% endif %}
             </div>
             {% if activated_page + 5 <= nums_page %}
-            <a href="{{activated_page + 5}}" class="pagination__btn btn__right">&gt;</a>
+            <a href="{{ url_for('home', lang=lang_now, page=activated_page + 5, search=search_now) }}" class="pagination__btn btn__right">&gt;</a>
             {% else %}
-            <a href="{{nums_page}}" class="pagination__btn btn__right">&gt;</a>
+            <a href="{{ url_for('home', lang=lang_now, page=nums_page, search=search_now) }}" class="pagination__btn btn__right">&gt;</a>
             {% endif %}
         </div>
     </div>
 </div>
 {% endif %}
 {% endif %}
+{% endblock %}
+
+
+{% block footer %}
+{% include '_footer.html' %}
 {% endblock %}
